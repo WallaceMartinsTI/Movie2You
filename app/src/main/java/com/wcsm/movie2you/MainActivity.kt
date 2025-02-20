@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.wcsm.movie2you.data.remote.api.TMDBAPIService
+import com.wcsm.movie2you.domain.model.Movie
+import com.wcsm.movie2you.ui.components.MoviesContainer
+import com.wcsm.movie2you.ui.theme.BackgroundColor
 import com.wcsm.movie2you.ui.theme.Movie2YouTheme
+import com.wcsm.movie2you.ui.view.moviesList.MoviesView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -50,11 +55,11 @@ class MainActivity : ComponentActivity() {
                 splashScreen.setKeepOnScreenCondition{ isSplashScreenVisible }
 
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().background(BackgroundColor),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text("HELLO WORLD")
+                    MoviesView()
                 }
             }
         }
