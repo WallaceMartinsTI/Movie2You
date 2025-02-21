@@ -4,7 +4,6 @@ import com.wcsm.movie2you.data.remote.api.TMDBAPIService
 import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.domain.model.MoviesResponse
 import com.wcsm.movie2you.domain.repository.MoviesRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.net.UnknownHostException
@@ -30,6 +29,8 @@ class MoviesRepositoryImpl(
                 } else {
                     emit(MoviesResponse.Error("Erro ao buscar filmes em exibição: a lista de filmes está nula."))
                 }
+            } else {
+                emit(MoviesResponse.Error("Erro ao buscar filmes em exibição: falha na requisição."))
             }
         } catch (unknownHostException: UnknownHostException) {
             unknownHostException.printStackTrace()
@@ -58,6 +59,8 @@ class MoviesRepositoryImpl(
                 } else {
                     emit(MoviesResponse.Error("Erro ao buscar filmes \"Em Breve\": a lista de filmes está nula."))
                 }
+            } else {
+                emit(MoviesResponse.Error("Erro ao buscar filmes \"Em Breve\": falha na requisição."))
             }
         } catch (unknownHostException: UnknownHostException) {
             unknownHostException.printStackTrace()
@@ -86,6 +89,8 @@ class MoviesRepositoryImpl(
                 } else {
                     emit(MoviesResponse.Error("Erro ao buscar filmes populares: a lista de filmes está nula."))
                 }
+            } else {
+                emit(MoviesResponse.Error("Erro ao buscar filmes populares: falha na requisição."))
             }
         } catch (unknownHostException: UnknownHostException) {
             unknownHostException.printStackTrace()
@@ -114,6 +119,8 @@ class MoviesRepositoryImpl(
                 } else {
                     emit(MoviesResponse.Error("Erro ao buscar filmes melhores avaliados: a lista de filmes está nula."))
                 }
+            } else {
+                emit(MoviesResponse.Error("Erro ao buscar filmes melhores avaliados: falha na requisição."))
             }
         } catch (unknownHostException: UnknownHostException) {
             unknownHostException.printStackTrace()

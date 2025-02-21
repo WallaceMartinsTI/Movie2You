@@ -2,10 +2,7 @@ package com.wcsm.movie2you.presentation.ui.view.movieDetails
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,18 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.domain.model.MovieDetails
 import com.wcsm.movie2you.domain.model.MovieDetailsComment
+import com.wcsm.movie2you.presentation.model.MovieState
 import com.wcsm.movie2you.presentation.ui.components.MoviesContainer
 import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
@@ -139,7 +132,8 @@ fun MovieDetailsView(
 
             MoviesContainer(
                 title = "Mais Como Este",
-                moviesList = fakeSimilarMovies
+                moviesList = fakeSimilarMovies,
+                onTryRequestAgain = {}
             ) {}
         }
     }
