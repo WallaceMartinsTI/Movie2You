@@ -76,24 +76,23 @@ fun MoviesView(
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier.fillMaxSize()
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Image(
-                    painter = painterResource(R.drawable.movie2you_app_icon),
+                    painter = painterResource(R.drawable.movie2you_logo),
                     contentDescription = "Ícone do aplicativo Movie2you",
-                    modifier = Modifier.size(120.dp)
+                    modifier = Modifier.size(80.dp)
                 )
             }
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {

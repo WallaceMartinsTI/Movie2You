@@ -42,5 +42,9 @@ val Typography = Typography(
         fontFamily = OpenSansFontFamily,
         color = TitleTextColor,
         fontWeight = FontWeight.SemiBold
+    ),
+    bodySmall = TextStyle(
+        fontFamily = OpenSansFontFamily,
+        fontSize = 12.sp
     )
 )

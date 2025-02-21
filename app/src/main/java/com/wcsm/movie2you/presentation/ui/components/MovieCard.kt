@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -37,13 +38,15 @@ import coil.compose.AsyncImage
 import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 import com.wcsm.movie2you.presentation.ui.theme.MovieCardShimmerColor
+import com.wcsm.movie2you.utils.Constants
 
 @Composable
 fun MovieCard(
     moviePosterPath: String
 ) {
-    val imageSize = "w1280"
-    val imageUrl = "https://image.tmdb.org/t/p/$imageSize$moviePosterPath"
+    val imageSize = Constants.TMDB_POSTER_IMAGE_SIZE
+    val imageBaseUrl = Constants.TMDB_MOVIE_IMAGE_BASE_URL
+    val posterImageUrl = "$imageBaseUrl$imageSize$moviePosterPath"
 
     var isImageLoading by remember { mutableStateOf(true) }
 
@@ -53,23 +56,17 @@ fun MovieCard(
             .size(width = 150.dp, height = 200.dp)
     ) {
         AsyncImage(
-            model = imageUrl,
+            model = posterImageUrl,
             contentDescription = null,
-            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
-                .size(width = 150.dp, height = 200.dp)
+                .fillMaxSize()
                 .clickable {  },
+            contentScale = ContentScale.Crop,
             onSuccess = { isImageLoading = false }
         )
 
         if(isImageLoading) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                MovieCardSkeleton()
-            }
+            MovieCardSkeleton()
         }
     }
 }

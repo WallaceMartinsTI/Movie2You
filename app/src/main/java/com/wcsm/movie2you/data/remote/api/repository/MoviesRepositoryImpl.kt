@@ -16,8 +16,6 @@ class MoviesRepositoryImpl(
         try {
             emit(MoviesResponse.Loading)
 
-            delay(5000)
-
             val response = tmdbapiService.getNowPlayingMovies(language = "pt-BR")
 
             if(response.isSuccessful && response.body() != null) {
@@ -45,8 +43,6 @@ class MoviesRepositoryImpl(
     override suspend fun getUpcomingMovies(): Flow<MoviesResponse<List<Movie>>> = flow {
         try {
             emit(MoviesResponse.Loading)
-
-            delay(5000)
 
             val response = tmdbapiService.getUpcomingMovies(language = "pt-BR")
 

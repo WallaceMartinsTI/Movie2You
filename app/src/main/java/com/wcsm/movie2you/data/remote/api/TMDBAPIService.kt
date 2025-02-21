@@ -1,8 +1,10 @@
 package com.wcsm.movie2you.data.remote.api
 
-import com.wcsm.movie2you.data.remote.api.dto.nowPlaying.MoviesResponseDTO
+import com.wcsm.movie2you.data.remote.api.dto.getMovies.MoviesResponseDTO
+import com.wcsm.movie2you.data.remote.api.dto.movieDetails.MovieDetailsResponseDTO
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TMDBAPIService {
@@ -25,6 +27,11 @@ interface TMDBAPIService {
     suspend fun getTopRatedMovies(
         @Query("language") language: String
     ) : Response<MoviesResponseDTO>
+
+    @GET("{movie_id}")
+    suspend fun getMovieDetails(
+        @Path("movie_id") movieId: Int
+    ) : Response<MovieDetailsResponseDTO>
 }
 
 // GET NOW PLAYING

@@ -1,4 +1,4 @@
-package com.wcsm.movie2you.data.remote.api.dto.nowPlaying
+package com.wcsm.movie2you.data.remote.api.dto.getMovies
 
 import com.google.gson.annotations.SerializedName
 

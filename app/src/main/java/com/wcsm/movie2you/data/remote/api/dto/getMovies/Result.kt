@@ -1,4 +1,4 @@
-package com.wcsm.movie2you.data.remote.api.dto.nowPlaying
+package com.wcsm.movie2you.data.remote.api.dto.getMovies
 
 import com.google.gson.annotations.SerializedName
 import com.wcsm.movie2you.domain.model.Movie
@@ -29,20 +29,8 @@ data class Result(
 ) {
     fun toMovie() : Movie {
         return Movie(
-            adult = this.adult,
-            backdropPath = backdropPath,
-            genreIds = genreIds,
-            id = id,
-            originalLanguage = originalLanguage,
-            originalTitle = originalTitle,
-            overview = overview,
-            popularity = popularity,
-            posterPath = posterPath,
-            releaseDate = releaseDate,
-            title = title,
-            video = video,
-            voteAverage = voteAverage,
-            voteCount = voteCount
+            id = this.id,
+            posterPath = this.posterPath,
         )
     }
 }

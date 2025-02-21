@@ -22,11 +22,11 @@ import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 @Composable
 fun MoviesContainer(
     title: String,
-    uiState: UiState,
     moviesList: List<Movie>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    uiState: UiState? = null,
 ) {
-    val listToShow = if(uiState.error?.isNotBlank() == true) {
+    val listToShow = if(uiState?.error?.isNotBlank() == true) {
         List(20) { null }
     } else {
         moviesList.ifEmpty { List(20) { null } }
@@ -60,100 +60,28 @@ private fun MoviesContainerPreview() {
     Movie2YouTheme {
         val movies = listOf(
             Movie(
-                adult = false,
-                backdropPath = "",
-                genreIds = emptyList(),
                 id = 1,
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 5.0,
                 posterPath = "/d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg",
-                releaseDate = "",
-                title = "",
-                video = true,
-                voteAverage = 8.5,
-                voteCount = 500
             ),
             Movie(
-                adult = false,
-                backdropPath = "",
-                genreIds = emptyList(),
-                id = 1,
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 5.0,
+                id = 2,
                 posterPath = "/pzIddUEMWhWzfvLI3TwxUG2wGoi.jpg",
-                releaseDate = "",
-                title = "",
-                video = true,
-                voteAverage = 8.5,
-                voteCount = 500
             ),
             Movie(
-                adult = false,
-                backdropPath = "",
-                genreIds = emptyList(),
-                id = 1,
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 5.0,
+                id = 3,
                 posterPath = "/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
-                releaseDate = "",
-                title = "",
-                video = true,
-                voteAverage = 8.5,
-                voteCount = 500
             ),
             Movie(
-                adult = false,
-                backdropPath = "",
-                genreIds = emptyList(),
-                id = 1,
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 5.0,
+                id = 4,
                 posterPath = "/xVS9XiO9upp2SnWx6KpBYb79hLR.jpg",
-                releaseDate = "",
-                title = "",
-                video = true,
-                voteAverage = 8.5,
-                voteCount = 500
             ),
             Movie(
-                adult = false,
-                backdropPath = "",
-                genreIds = emptyList(),
-                id = 1,
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 5.0,
+                id = 5,
                 posterPath = "/4cR3hImKd78dSs652PAkSAyJ5Cx.jpg",
-                releaseDate = "",
-                title = "",
-                video = true,
-                voteAverage = 8.5,
-                voteCount = 500
             ),
             Movie(
-                adult = false,
-                backdropPath = "",
-                genreIds = emptyList(),
-                id = 1,
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 5.0,
+                id = 6,
                 posterPath = "/ttN5D6GKOwKWHmCzDGctAvaNMAi.jpg",
-                releaseDate = "",
-                title = "",
-                video = true,
-                voteAverage = 8.5,
-                voteCount = 500
             )
         )
         Column(

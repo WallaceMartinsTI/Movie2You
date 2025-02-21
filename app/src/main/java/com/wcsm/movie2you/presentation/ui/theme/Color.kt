@@ -14,7 +14,11 @@ val SystemUiControllerColor = Color(0xFF171424)
 val AppBackgroundColor = Color(0xFF1C1A29)
 val TitleTextColor = Color(0xFFDEDDDF)
 val AppIconColor = Color(0xFFB12C2C)
+val LightGrayColor = Color(0xFF777777)
+
 val CommentsContainerColor = Color(0xFF242135)
+val CommentsDividerColor = Color(0xFF413E50)
+val CommentsTextColor = Color(0xFFA4A3A9)
 
 val MovieCardShimmerColor = listOf(
     CommentsContainerColor,
