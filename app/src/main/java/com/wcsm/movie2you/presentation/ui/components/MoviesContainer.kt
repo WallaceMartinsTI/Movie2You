@@ -1,4 +1,4 @@
-package com.wcsm.movie2you.ui.components
+package com.wcsm.movie2you.presentation.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.wcsm.movie2you.R
 import com.wcsm.movie2you.domain.model.Movie
-import com.wcsm.movie2you.ui.theme.BackgroundColor
-import com.wcsm.movie2you.ui.theme.Movie2YouTheme
-import com.wcsm.movie2you.ui.theme.TitleTextColor
+import com.wcsm.movie2you.presentation.ui.theme.BackgroundColor
+import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
+import com.wcsm.movie2you.presentation.ui.theme.TitleTextColor
 
 @Composable
 fun MoviesContainer(
@@ -43,9 +43,7 @@ fun MoviesContainer(
     ) {
         Text(
             text = title,
-            fontSize = 21.sp,
-            color = TitleTextColor,
-            //style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge
         )
 
         Spacer(Modifier.height(8.dp))
@@ -55,17 +53,17 @@ fun MoviesContainer(
         ) {
             items(moviesList) { movie ->
                 /* PRODUCTION */
-                /*AsyncImage(
+                AsyncImage(
                     model = "$imageUrl${movie.posterPath}",
                     contentDescription = "${movie.title} poster",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .clip(RoundedCornerShape(12.dp))
                         .size(width = 150.dp, height = 200.dp)
-                )*/
+                )
 
                 // FOR PREVIEW
-                Image(
+                /*Image(
                     painterResource(R.drawable.ic_launcher_background),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
@@ -73,7 +71,7 @@ fun MoviesContainer(
                         .clip(RoundedCornerShape(12.dp))
                         .size(width = 150.dp, height = 200.dp)
                         .clickable {  }
-                )
+                )*/
             }
         }
     }

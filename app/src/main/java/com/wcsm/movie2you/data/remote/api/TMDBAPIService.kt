@@ -3,10 +3,13 @@ package com.wcsm.movie2you.data.remote.api
 import com.wcsm.movie2you.data.remote.api.dto.nowPlaying.NowPlayingResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface TMDBAPIService {
     @GET("now_playing")
-    suspend fun getNowPlayingMovies() : Response<NowPlayingResponse>
+    suspend fun getNowPlayingMovies(
+        @Query("language") language: String
+    ) : Response<NowPlayingResponse>
 
     /*@GET
     suspend fun getTopRatedMovies()

@@ -1,4 +1,4 @@
-package com.wcsm.movie2you.ui.view.moviesList
+package com.wcsm.movie2you.presentation.ui.view.moviesList
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,18 +12,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wcsm.movie2you.R
 import com.wcsm.movie2you.domain.model.Movie
-import com.wcsm.movie2you.ui.components.MoviesContainer
-import com.wcsm.movie2you.ui.theme.BackgroundColor
-import com.wcsm.movie2you.ui.theme.Movie2YouTheme
+import com.wcsm.movie2you.presentation.ui.components.MoviesContainer
+import com.wcsm.movie2you.presentation.ui.theme.BackgroundColor
+import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 
 @Composable
 fun MoviesView() {
@@ -126,6 +128,14 @@ fun MoviesView() {
         )
     )
 
+    val moviesListViewModel: MoviesListViewModel = hiltViewModel()
+
+    val nowPlayingMovies by moviesListViewModel.nowPlayingMovies.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        moviesListViewModel.getNowPlayingMovies()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -150,7 +160,7 @@ fun MoviesView() {
         ) {
             MoviesContainer(
                 title = "Em Exibição",
-                moviesList = movies
+                moviesList = nowPlayingMovies
             )
 
             MoviesContainer(

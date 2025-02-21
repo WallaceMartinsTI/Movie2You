@@ -1,4 +1,4 @@
-package com.wcsm.movie2you.ui.theme
+package com.wcsm.movie2you.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -63,9 +65,17 @@ dependencies {
     // Splashscreen
     implementation("androidx.core:core-splashscreen:1.0.0")
 
+    // Lifecycle Compose
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt("com.google.dagger:hilt-compiler:2.48")
 
     // Coil Compose
     implementation("io.coil-kt:coil-compose:2.4.0")
@@ -78,4 +88,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }

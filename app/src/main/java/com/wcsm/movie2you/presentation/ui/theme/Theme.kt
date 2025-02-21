@@ -1,6 +1,5 @@
-package com.wcsm.movie2you.ui.theme
+package com.wcsm.movie2you.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

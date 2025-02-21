@@ -1,6 +1,7 @@
 package com.wcsm.movie2you.data.remote.api.dto.nowPlaying
 
 import com.google.gson.annotations.SerializedName
+import com.wcsm.movie2you.domain.model.Movie
 
 data class Result(
     val adult: Boolean,
@@ -25,4 +26,23 @@ data class Result(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+) {
+    fun toMovie() : Movie {
+        return Movie(
+            adult = this.adult,
+            backdropPath = backdropPath,
+            genreIds = genreIds,
+            id = id,
+            originalLanguage = originalLanguage,
+            originalTitle = originalTitle,
+            overview = overview,
+            popularity = popularity,
+            posterPath = posterPath,
+            releaseDate = releaseDate,
+            title = title,
+            video = video,
+            voteAverage = voteAverage,
+            voteCount = voteCount
+        )
+    }
+}
