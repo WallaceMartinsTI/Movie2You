@@ -25,6 +25,7 @@ fun MoviesContainer(
     moviesList: List<Movie>,
     modifier: Modifier = Modifier,
     uiState: UiState? = null,
+    onMovieCardClick: (movieId: Int) -> Unit
 ) {
     val listToShow = if(uiState?.error?.isNotBlank() == true) {
         List(20) { null }
@@ -47,8 +48,10 @@ fun MoviesContainer(
         ) {
             items(listToShow) { movie ->
                 MovieCard(
-                    moviePosterPath = movie?.posterPath ?: ""
-                )
+                    movie = movie
+                ) { movieId ->
+                    onMovieCardClick(movieId)
+                }
             }
         }
     }
@@ -93,7 +96,7 @@ private fun MoviesContainerPreview() {
                 title = "Em Exibição",
                 uiState = UiState(),
                 moviesList = movies
-            )
+            ) {}
         }
     }
 }

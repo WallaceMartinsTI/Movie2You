@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 import com.wcsm.movie2you.presentation.ui.theme.MovieCardShimmerColor
@@ -42,11 +43,12 @@ import com.wcsm.movie2you.utils.Constants
 
 @Composable
 fun MovieCard(
-    moviePosterPath: String
+    movie: Movie?,
+    onMovieCardClick: ((movieId: Int) -> Unit)? = null
 ) {
     val imageSize = Constants.TMDB_POSTER_IMAGE_SIZE
     val imageBaseUrl = Constants.TMDB_MOVIE_IMAGE_BASE_URL
-    val posterImageUrl = "$imageBaseUrl$imageSize$moviePosterPath"
+    val posterImageUrl = "$imageBaseUrl$imageSize${movie?.posterPath}"
 
     var isImageLoading by remember { mutableStateOf(true) }
 
@@ -55,15 +57,17 @@ fun MovieCard(
             .clip(RoundedCornerShape(12.dp))
             .size(width = 150.dp, height = 200.dp)
     ) {
-        AsyncImage(
-            model = posterImageUrl,
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable {  },
-            contentScale = ContentScale.Crop,
-            onSuccess = { isImageLoading = false }
-        )
+        if(movie != null) {
+            AsyncImage(
+                model = posterImageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { onMovieCardClick?.let { onMovieCardClick(movie.id) } },
+                contentScale = ContentScale.Crop,
+                onSuccess = { isImageLoading = false }
+            )
+        }
 
         if(isImageLoading) {
             MovieCardSkeleton()
@@ -90,9 +94,9 @@ private fun MovieCardPreview() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                MovieCard("")
+                MovieCard(Movie(1, "")) {}
 
-                MovieCard("")
+                MovieCard(Movie(2, "")) {}
             }
         }
     }

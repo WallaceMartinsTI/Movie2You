@@ -1,6 +1,8 @@
 package com.wcsm.movie2you.presentation.ui.view.moviesList
 
+import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,9 +44,11 @@ import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 
 @Composable
 fun MoviesView(
-    onExitApp: () -> Unit
+    onNavigateToMovieDetails: (movieId: Int) -> Unit
 ) {
     val moviesListViewModel: MoviesListViewModel = hiltViewModel()
+
+    val localActivity = LocalActivity.current
 
     val uiState by moviesListViewModel.uiState.collectAsStateWithLifecycle()
     val nowPlayingMovies by moviesListViewModel.nowPlayingMovies.collectAsStateWithLifecycle()
@@ -100,25 +105,33 @@ fun MoviesView(
                     title = "Em Exibição",
                     uiState = uiState,
                     moviesList = nowPlayingMovies
-                )
+                ) { movieId ->
+                    onNavigateToMovieDetails(movieId)
+                }
 
                 MoviesContainer(
                     title = "Em Breve",
                     uiState = uiState,
                     moviesList = upcomingMovies
-                )
+                ) { movieId ->
+                    onNavigateToMovieDetails(movieId)
+                }
 
                 MoviesContainer(
                     title = "Mais Populares",
                     uiState = uiState,
                     moviesList = popularMovies
-                )
+                ) { movieId ->
+                    onNavigateToMovieDetails(movieId)
+                }
 
                 MoviesContainer(
                     title = "Melhores Avaliados",
                     uiState = uiState,
                     moviesList = topRatedMovies
-                )
+                ) { movieId ->
+                    onNavigateToMovieDetails(movieId)
+                }
             }
         }
 
@@ -151,7 +164,7 @@ fun MoviesView(
 
         if(showExitAppDialog) {
             ExitAppDialog(
-                onExitApp = { onExitApp() }
+                onExitApp = { localActivity?.finish() }
             ) {
                 showExitAppDialog = false
             }
@@ -170,7 +183,7 @@ private fun MoviesViewPreview() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            MoviesView() {}
+            MoviesView {}
         }
     }
 }

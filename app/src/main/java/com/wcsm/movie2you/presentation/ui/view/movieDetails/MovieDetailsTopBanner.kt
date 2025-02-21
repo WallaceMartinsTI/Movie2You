@@ -1,5 +1,6 @@
 package com.wcsm.movie2you.presentation.ui.view.movieDetails
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.wcsm.movie2you.R
+import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.domain.model.MovieDetails
 import com.wcsm.movie2you.presentation.ui.components.MovieCard
 import com.wcsm.movie2you.presentation.ui.theme.LightGrayColor
@@ -34,11 +36,11 @@ import com.wcsm.movie2you.utils.Constants
 
 @Composable
 fun MovieDetailsTopBanner(
-    movieDetails: MovieDetails
+    movieDetails: MovieDetails,
+    onBackPressed: () -> Unit
 ) {
     val imageSize = Constants.TMDB_POSTER_IMAGE_SIZE
     val imageBaseUrl = Constants.TMDB_MOVIE_IMAGE_BASE_URL
-    val posterImageUrl = "$imageBaseUrl$imageSize${movieDetails.backdropPath}"
     val backdropImageUrl = "$imageBaseUrl$imageSize${movieDetails.backdropPath}"
 
     Box(
@@ -63,6 +65,7 @@ fun MovieDetailsTopBanner(
                 painter = painterResource(R.drawable.arrow_left),
                 contentDescription = null,
                 modifier = Modifier
+                    .clickable { onBackPressed() }
                     .padding(16.dp)
                     .size(32.dp),
                 tint = TitleTextColor
@@ -111,9 +114,13 @@ fun MovieDetailsTopBanner(
                     }
                 }
 
-                Column {
-                    MovieCard(posterImageUrl)
-                }
+                MovieCard(
+                    movie = Movie(
+                        id = movieDetails.id,
+                        posterPath = movieDetails.posterPath
+                    ),
+                    onMovieCardClick = null
+                )
             }
         }
 
@@ -136,6 +143,6 @@ private fun MovieDetailsTopBannerPreview() {
             voteAverage = 8.708,
         )
 
-        MovieDetailsTopBanner(movieDetails = movieDetails)
+        MovieDetailsTopBanner(movieDetails = movieDetails) {}
     }
 }
