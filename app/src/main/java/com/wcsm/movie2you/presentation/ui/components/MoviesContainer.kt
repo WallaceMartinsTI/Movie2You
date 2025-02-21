@@ -1,42 +1,36 @@
 package com.wcsm.movie2you.presentation.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import com.wcsm.movie2you.R
 import com.wcsm.movie2you.domain.model.Movie
-import com.wcsm.movie2you.presentation.ui.theme.BackgroundColor
+import com.wcsm.movie2you.presentation.model.UiState
+import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
-import com.wcsm.movie2you.presentation.ui.theme.TitleTextColor
 
 @Composable
 fun MoviesContainer(
     title: String,
+    uiState: UiState,
     moviesList: List<Movie>,
     modifier: Modifier = Modifier
 ) {
-    val imageSize = "w1280"
-    val imageUrl = "https://image.tmdb.org/t/p/$imageSize"
+    val listToShow = if(uiState.error?.isNotBlank() == true) {
+        List(20) { null }
+    } else {
+        moviesList.ifEmpty { List(20) { null } }
+    }
 
     Column(
         modifier = modifier
@@ -51,27 +45,10 @@ fun MoviesContainer(
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(moviesList) { movie ->
-                /* PRODUCTION */
-                AsyncImage(
-                    model = "$imageUrl${movie.posterPath}",
-                    contentDescription = "${movie.title} poster",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .size(width = 150.dp, height = 200.dp)
+            items(listToShow) { movie ->
+                MovieCard(
+                    moviePosterPath = movie?.posterPath ?: ""
                 )
-
-                // FOR PREVIEW
-                /*Image(
-                    painterResource(R.drawable.ic_launcher_background),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .size(width = 150.dp, height = 200.dp)
-                        .clickable {  }
-                )*/
             }
         }
     }
@@ -180,10 +157,13 @@ private fun MoviesContainerPreview() {
             )
         )
         Column(
-            modifier = Modifier.fillMaxSize().background(BackgroundColor)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AppBackgroundColor)
         ) {
             MoviesContainer(
                 title = "Em Exibição",
+                uiState = UiState(),
                 moviesList = movies
             )
         }

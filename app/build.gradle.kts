@@ -65,6 +65,12 @@ dependencies {
     // Splashscreen
     implementation("androidx.core:core-splashscreen:1.0.0")
 
+    // System UI Controller
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
+    // Extended Icons
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+
     // Lifecycle Compose
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
 

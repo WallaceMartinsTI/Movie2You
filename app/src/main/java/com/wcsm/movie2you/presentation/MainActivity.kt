@@ -1,33 +1,30 @@
 package com.wcsm.movie2you.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.wcsm.movie2you.data.remote.api.TMDBAPIService
-import com.wcsm.movie2you.presentation.ui.theme.BackgroundColor
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
+import com.wcsm.movie2you.presentation.ui.theme.SystemUiControllerColor
 import com.wcsm.movie2you.presentation.ui.view.moviesList.MoviesView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -39,7 +36,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Movie2YouTheme {
+                val systemBarsColor = SystemUiControllerColor
                 var isSplashScreenVisible by remember { mutableStateOf(true) }
+
+                SetBarColor(systemBarsColor)
 
                 LaunchedEffect(Unit) {
                     delay(2000)
@@ -49,13 +49,25 @@ class MainActivity : ComponentActivity() {
                 splashScreen.setKeepOnScreenCondition{ isSplashScreenVisible }
 
                 Column(
-                    modifier = Modifier.fillMaxSize().background(BackgroundColor),
+                    modifier = Modifier.fillMaxSize().background(AppBackgroundColor),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    MoviesView()
+                    MoviesView { exitApp() }
                 }
             }
         }
+    }
+
+    @Composable
+    fun SetBarColor(color: Color) {
+        val systemUiController = rememberSystemUiController()
+        SideEffect {
+            systemUiController.setSystemBarsColor(color = color)
+        }
+    }
+
+    private fun exitApp() {
+        finish()
     }
 }

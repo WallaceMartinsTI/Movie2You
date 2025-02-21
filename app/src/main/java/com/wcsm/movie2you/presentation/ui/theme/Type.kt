@@ -30,6 +30,17 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = OpenSansFontFamily,
         fontSize = 21.sp,
-        color = TitleTextColor
+        color = TitleTextColor,
+        fontWeight = FontWeight.SemiBold
+    ),
+    titleMedium = TextStyle(
+        fontFamily = OpenSansFontFamily,
+        color = TitleTextColor,
+        fontWeight = FontWeight.SemiBold
+    ),
+    labelMedium = TextStyle(
+        fontFamily = OpenSansFontFamily,
+        color = TitleTextColor,
+        fontWeight = FontWeight.SemiBold
     )
 )

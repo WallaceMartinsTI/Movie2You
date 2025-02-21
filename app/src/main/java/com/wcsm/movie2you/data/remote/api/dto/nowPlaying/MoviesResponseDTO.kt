@@ -2,7 +2,7 @@ package com.wcsm.movie2you.data.remote.api.dto.nowPlaying
 
 import com.google.gson.annotations.SerializedName
 
-data class NowPlayingResponse(
+data class MoviesResponseDTO(
     val dates: Dates,
     val page: Int,
     val results: List<Result>,
