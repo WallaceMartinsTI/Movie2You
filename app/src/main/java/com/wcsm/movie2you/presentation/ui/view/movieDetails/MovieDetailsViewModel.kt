@@ -1,6 +1,5 @@
 package com.wcsm.movie2you.presentation.ui.view.movieDetails
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wcsm.movie2you.domain.model.Movie
