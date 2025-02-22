@@ -30,6 +30,7 @@ import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 fun MovieDetailsView(
     movieDetailsViewModel: MovieDetailsViewModel,
     movieId: Int,
+    onSimilarMovieClick: (movieId: Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val movieDetails by movieDetailsViewModel.movieDetails.collectAsStateWithLifecycle()
@@ -44,9 +45,7 @@ fun MovieDetailsView(
     )
 
     LaunchedEffect(Unit) {
-        movieDetailsViewModel.getMovieDetails(movieId)
-        movieDetailsViewModel.getMovieReviews(movieId)
-        movieDetailsViewModel.getSimilarMovies(movieId)
+        movieDetailsViewModel.getAllMovieData(movieId)
     }
 
     BackHandler {
@@ -70,13 +69,17 @@ fun MovieDetailsView(
             ) {
                 MovieDetailsSynopsisContainer(movieOverview = movieDetails.data!!.overview)
 
-                MovieDetailsReviewsContainer(uiState = movieReviews)
+                MovieDetailsReviewsContainer(uiState = movieReviews) {
+                    movieDetailsViewModel.getMovieReviews(movieId)
+                }
 
                 MoviesContainer(
                     title = "Mais Como Este",
                     movies = uiState.data,
-                    onTryRequestAgain = {}
-                ) {}
+                    onTryRequestAgain = { movieDetailsViewModel.getSimilarMovies(movieId) }
+                ) { movieId ->
+                    onSimilarMovieClick(movieId)
+                }
             }
         } else if(movieDetails.error?.isNotBlank() == true) {
             GetMovieDetailsError(
@@ -99,7 +102,7 @@ private fun MovieDetailsViewPreview() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            MovieDetailsView(hiltViewModel(), movieId = 1) {}
+            MovieDetailsView(hiltViewModel(), movieId = 1, {}) {}
         }
     }
 }

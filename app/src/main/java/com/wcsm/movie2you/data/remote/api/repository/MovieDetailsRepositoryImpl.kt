@@ -7,6 +7,7 @@ import com.wcsm.movie2you.domain.model.MovieDetails
 import com.wcsm.movie2you.domain.model.MovieDetailsReview
 import com.wcsm.movie2you.domain.model.MoviesResponse
 import com.wcsm.movie2you.domain.repository.MovieDetailsRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.net.UnknownHostException
@@ -45,6 +46,8 @@ class MovieDetailsRepositoryImpl(
         try {
             emit(MoviesResponse.Loading)
 
+            delay(5000)
+
             val response = tmdbApiService.getMovieReviews(movieId = movieId, language = "pt-BR")
 
             if(response.isSuccessful && response.body() != null) {
@@ -75,7 +78,7 @@ class MovieDetailsRepositoryImpl(
         //Log.i("#-# TESTE #-#", "GET SIMILAR MOVIE - MovieID: $movieId")
         try {
             emit(MoviesResponse.Loading)
-
+            delay(3000)
             //val teste = if(movieId == 240) 999 else movieId
             val response = tmdbApiService.getSimilarMovies(movieId = movieId, language = "pt-BR")
 

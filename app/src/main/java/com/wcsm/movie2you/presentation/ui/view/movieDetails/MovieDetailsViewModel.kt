@@ -39,6 +39,12 @@ class MovieDetailsViewModel @Inject constructor(
 
     private val _cachedSimilarMovies = MutableStateFlow<Map<Int, List<Movie>>>(emptyMap())
 
+    fun getAllMovieData(movieId: Int) {
+        getMovieDetails(movieId)
+        getMovieReviews(movieId)
+        getSimilarMovies(movieId)
+    }
+
     fun getMovieDetails(movieId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val cachedMovieDetails = _cachedMovieDetails.value[movieId]

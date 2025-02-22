@@ -81,7 +81,7 @@ fun MovieCard(
                 Spacer(Modifier.height(8.dp))
 
                 Text(
-                    text = "Filme sem poster",
+                    text = "Filme indisponível",
                     color = LightGrayColor,
                     style = MaterialTheme.typography.labelMedium
                 )

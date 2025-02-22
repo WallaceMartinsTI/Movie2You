@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,6 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wcsm.movie2you.domain.model.MovieDetailsReview
 import com.wcsm.movie2you.presentation.model.UiState
+import com.wcsm.movie2you.presentation.ui.components.Movie2YouCircularLoading
+import com.wcsm.movie2you.presentation.ui.theme.AppIconColor
 import com.wcsm.movie2you.presentation.ui.theme.CommentsContainerColor
 import com.wcsm.movie2you.presentation.ui.theme.CommentsDividerColor
 import com.wcsm.movie2you.presentation.ui.theme.CommentsTextColor
@@ -37,7 +41,8 @@ import com.wcsm.movie2you.presentation.ui.theme.TitleTextColor
 
 @Composable
 fun MovieDetailsReviewsContainer(
-    uiState: UiState<List<MovieDetailsReview>?>
+    uiState: UiState<List<MovieDetailsReview>?>,
+    onTryRequestAgain: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -58,29 +63,49 @@ fun MovieDetailsReviewsContainer(
                 .border(1.dp, Color.Black, RoundedCornerShape(12.dp))
                 .padding(16.dp),
         ) {
-            if(!uiState.data.isNullOrEmpty()) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(uiState.data) { movieDetailsComment ->
-                        MovieComment(movieDetailsComment)
+            if(uiState.isLoading) {
+                Movie2YouCircularLoading(
+                    loadingMessage = "Carregando comentários...",
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                if(!uiState.data.isNullOrEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        items(uiState.data) { movieDetailsComment ->
+                            MovieComment(movieDetailsComment)
+                        }
                     }
                 }
-            }
 
-            if(uiState.error?.isNotBlank() == true){
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = uiState.error,
-                        color = LightGrayColor,
-                        style = MaterialTheme.typography.labelMedium,
-                        textAlign = TextAlign.Center
-                    )
+                if(uiState.error?.isNotBlank() == true){
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = uiState.error,
+                            color = LightGrayColor,
+                            style = MaterialTheme.typography.labelMedium,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Spacer(Modifier.height(8.dp))
+
+                        Button(
+                            onClick = { onTryRequestAgain() },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = AppIconColor.copy(alpha = 0.7f)
+                            )
+                        ) {
+                            Text(
+                                text = "Tentar Novamente"
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -110,7 +135,7 @@ private fun MovieDetailsReviewsContainerPreview() {
         )
 
         val uiState = UiState<List<MovieDetailsReview>?>(data = comments)
-        MovieDetailsReviewsContainer(uiState = uiState)
+        MovieDetailsReviewsContainer(uiState = uiState) {}
     }
 }
 

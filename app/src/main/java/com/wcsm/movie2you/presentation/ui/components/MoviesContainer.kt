@@ -50,7 +50,12 @@ fun MoviesContainer(
                 .height(200.dp)
         ) {
             movies?.let { moviesState ->
-                if(!moviesState.isLoading) {
+                if(moviesState.isLoading) {
+                    Movie2YouCircularLoading(
+                        loadingMessage = "Carregando filmes...",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                } else {
                     if(movies.error?.isNotBlank() == true) {
                         NoMovies(message = movies.error) { onTryRequestAgain() }
                     } else if(movies.data.isEmpty()) {
@@ -135,6 +140,8 @@ private fun NoMovies(
             color = AppIconColor,
             fontWeight = FontWeight.SemiBold
         )
+
+        Spacer(Modifier.height(8.dp))
 
         Button(
             onClick = { onTryAgain() },

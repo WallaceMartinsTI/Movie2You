@@ -31,7 +31,11 @@ fun MoviesNavigation() {
             val args = it.toRoute<Screen.MovieDetailsScreen>()
             MovieDetailsView(
                 movieDetailsViewModel = movieDetailsViewModel,
-                movieId = args.movieId
+                movieId = args.movieId,
+                onSimilarMovieClick = { movieId ->
+                    navController.popBackStack() // TESTAR INVERTER SE NAO FUNCIONAR
+                    navController.navigate(Screen.MovieDetailsScreen(movieId))
+                }
             ) {
                 navController.popBackStack()
             }
