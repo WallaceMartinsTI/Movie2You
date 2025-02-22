@@ -2,11 +2,12 @@ package com.wcsm.movie2you.presentation.ui.view.moviesList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.domain.model.MoviesResponse
-import com.wcsm.movie2you.domain.usecase.GetNowPlayingMoviesUseCase
-import com.wcsm.movie2you.domain.usecase.GetPopularMoviesUseCase
-import com.wcsm.movie2you.domain.usecase.GetTopRatedMoviesUseCase
-import com.wcsm.movie2you.domain.usecase.GetUpcomingMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.moviesList.GetNowPlayingMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.moviesList.GetPopularMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.moviesList.GetTopRatedMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.moviesList.GetUpcomingMoviesUseCase
 import com.wcsm.movie2you.presentation.model.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,16 +24,18 @@ class MoviesListViewModel @Inject constructor(
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase
 ) : ViewModel() {
 
-    private val _nowPlayingMoviesState = MutableStateFlow(UiState())
+    /* FAZER CACHE DOS FILMES */
+
+    private val _nowPlayingMoviesState = MutableStateFlow(UiState<List<Movie>>(data = emptyList()))
     val nowPlayingMoviesState = _nowPlayingMoviesState.asStateFlow()
 
-    private val _upcomingMoviesState = MutableStateFlow(UiState())
+    private val _upcomingMoviesState = MutableStateFlow(UiState<List<Movie>>(data = emptyList()))
     val upcomingMoviesState = _upcomingMoviesState.asStateFlow()
 
-    private val _popularMoviesState = MutableStateFlow(UiState())
+    private val _popularMoviesState = MutableStateFlow(UiState<List<Movie>>(data = emptyList()))
     val popularMoviesState = _popularMoviesState.asStateFlow()
 
-    private val _topRatedMoviesState = MutableStateFlow(UiState())
+    private val _topRatedMoviesState = MutableStateFlow(UiState<List<Movie>>(data = emptyList()))
     val topRatedMoviesState = _topRatedMoviesState.asStateFlow()
 
     fun getAllMovies() {
@@ -47,15 +50,21 @@ class MoviesListViewModel @Inject constructor(
             getNowPlayingMoviesUseCase().collect { moviesResponse ->
                 when(moviesResponse) {
                     is MoviesResponse.Loading -> {
-                        _nowPlayingMoviesState.value = UiState(isLoading = true)
+                        _nowPlayingMoviesState.value = UiState(
+                            isLoading = true,
+                            data = emptyList()
+                        )
                     }
                     is MoviesResponse.Error -> {
-                        _nowPlayingMoviesState.value = UiState(error = moviesResponse.message)
+                        _nowPlayingMoviesState.value = UiState(
+                            error = moviesResponse.errorMessage,
+                            data = emptyList()
+                        )
                     }
                     is MoviesResponse.Success -> {
                         _nowPlayingMoviesState.value = UiState(
                             success = true,
-                            movies = moviesResponse.data
+                            data = moviesResponse.data
                         )
                     }
                 }
@@ -68,15 +77,21 @@ class MoviesListViewModel @Inject constructor(
             getUpcomingMoviesUseCase().collect { moviesResponse ->
                 when(moviesResponse) {
                     is MoviesResponse.Loading -> {
-                        _upcomingMoviesState.value = UiState(isLoading = true)
+                        _upcomingMoviesState.value = UiState(
+                            isLoading = true,
+                            data = emptyList()
+                        )
                     }
                     is MoviesResponse.Error -> {
-                        _upcomingMoviesState.value = UiState(error = moviesResponse.message)
+                        _upcomingMoviesState.value = UiState(
+                            error = moviesResponse.errorMessage,
+                            data = emptyList()
+                        )
                     }
                     is MoviesResponse.Success -> {
                         _upcomingMoviesState.value = UiState(
                             success = true,
-                            movies = moviesResponse.data
+                            data = moviesResponse.data
                         )
                     }
                 }
@@ -89,15 +104,21 @@ class MoviesListViewModel @Inject constructor(
             getPopularMoviesUseCase().collect { moviesResponse ->
                 when(moviesResponse) {
                     is MoviesResponse.Loading -> {
-                        _popularMoviesState.value = UiState(isLoading = true)
+                        _popularMoviesState.value = UiState(
+                            isLoading = true,
+                            data = emptyList()
+                        )
                     }
                     is MoviesResponse.Error -> {
-                        _popularMoviesState.value = UiState(error = moviesResponse.message)
+                        _popularMoviesState.value = UiState(
+                            error = moviesResponse.errorMessage,
+                            data = emptyList()
+                        )
                     }
                     is MoviesResponse.Success -> {
                         _popularMoviesState.value = UiState(
                             success = true,
-                            movies = moviesResponse.data
+                            data = moviesResponse.data
                         )
                     }
                 }
@@ -110,15 +131,21 @@ class MoviesListViewModel @Inject constructor(
             getTopRatedMoviesUseCase().collect { moviesResponse ->
                 when(moviesResponse) {
                     is MoviesResponse.Loading -> {
-                        _topRatedMoviesState.value = UiState(isLoading = true)
+                        _topRatedMoviesState.value = UiState(
+                            isLoading = true,
+                            data = emptyList()
+                        )
                     }
                     is MoviesResponse.Error -> {
-                        _topRatedMoviesState.value = UiState(error = moviesResponse.message)
+                        _topRatedMoviesState.value = UiState(
+                            error = moviesResponse.errorMessage,
+                            data = emptyList()
+                        )
                     }
                     is MoviesResponse.Success -> {
                         _topRatedMoviesState.value = UiState(
                             success = true,
-                            movies = moviesResponse.data
+                            data = moviesResponse.data
                         )
                     }
                 }

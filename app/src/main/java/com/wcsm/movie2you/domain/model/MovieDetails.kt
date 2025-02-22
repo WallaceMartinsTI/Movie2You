@@ -6,8 +6,8 @@ data class MovieDetails(
     val id: Int,
     val overview: String,
     val posterPath: String,
-    val runtime: Int,
+    val runtime: String,
     val title: String,
-    val voteAverage: Double,
+    val voteAverage: String,
 
 )

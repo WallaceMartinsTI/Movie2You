@@ -1,5 +1,6 @@
 package com.wcsm.movie2you.presentation.ui.view.moviesList
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
@@ -53,6 +54,7 @@ fun MoviesView(
     }
 
     LaunchedEffect(Unit) {
+        Log.i("#-# TESTE #-#", "CHAMOU UNIT - GET ALL MOVIES")
         moviesListViewModel.getAllMovies()
     }
 
@@ -83,7 +85,7 @@ fun MoviesView(
                 MoviesContainer(
                     title = "Em Exibição",
                     error = nowPlayingMoviesState.error,
-                    moviesList = nowPlayingMoviesState.movies,
+                    moviesList = nowPlayingMoviesState.data,
                     onTryRequestAgain = { moviesListViewModel.getNowPlayingMovies() }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
@@ -92,7 +94,7 @@ fun MoviesView(
                 MoviesContainer(
                     title = "Em Breve",
                     error = upcomingMoviesState.error,
-                    moviesList = upcomingMoviesState.movies,
+                    moviesList = upcomingMoviesState.data,
                     onTryRequestAgain = { moviesListViewModel.getUpcomingMovies() }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
@@ -101,7 +103,7 @@ fun MoviesView(
                 MoviesContainer(
                     title = "Mais Populares",
                     error = popularMoviesState.error,
-                    moviesList = popularMoviesState.movies,
+                    moviesList = popularMoviesState.data,
                     onTryRequestAgain = { moviesListViewModel.getPopularMovies() }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
@@ -110,7 +112,7 @@ fun MoviesView(
                 MoviesContainer(
                     title = "Melhores Avaliados",
                     error = topRatedMoviesState.error,
-                    moviesList = topRatedMoviesState.movies,
+                    moviesList = topRatedMoviesState.data,
                     onTryRequestAgain = { moviesListViewModel.getTopRatedMovies() }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)

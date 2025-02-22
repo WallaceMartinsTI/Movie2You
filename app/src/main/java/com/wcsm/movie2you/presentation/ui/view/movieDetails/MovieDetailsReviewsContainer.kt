@@ -3,8 +3,10 @@ package com.wcsm.movie2you.presentation.ui.view.movieDetails
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,22 +17,26 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wcsm.movie2you.domain.model.MovieDetailsComment
+import com.wcsm.movie2you.domain.model.MovieDetailsReview
+import com.wcsm.movie2you.presentation.model.UiState
 import com.wcsm.movie2you.presentation.ui.theme.CommentsContainerColor
 import com.wcsm.movie2you.presentation.ui.theme.CommentsDividerColor
 import com.wcsm.movie2you.presentation.ui.theme.CommentsTextColor
+import com.wcsm.movie2you.presentation.ui.theme.LightGrayColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 import com.wcsm.movie2you.presentation.ui.theme.TitleTextColor
 
 @Composable
-fun MovieDetailsCommentsContainer(
-    movieDetailsCommentList: List<MovieDetailsComment>
+fun MovieDetailsReviewsContainer(
+    uiState: UiState<List<MovieDetailsReview>?>
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -42,7 +48,7 @@ fun MovieDetailsCommentsContainer(
 
         Spacer(Modifier.height(8.dp))
 
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(12.dp))
                 .fillMaxWidth()
@@ -50,10 +56,31 @@ fun MovieDetailsCommentsContainer(
                 .background(CommentsContainerColor)
                 .border(1.dp, Color.Black, RoundedCornerShape(12.dp))
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(movieDetailsCommentList) { movieDetailsComment ->
-                MovieComment(movieDetailsComment)
+            if(!uiState.data.isNullOrEmpty()) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(uiState.data) { movieDetailsComment ->
+                        MovieComment(movieDetailsComment)
+                    }
+                }
+            }
+
+            if(uiState.error?.isNotBlank() == true){
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = uiState.error,
+                        color = LightGrayColor,
+                        style = MaterialTheme.typography.labelMedium,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
@@ -61,43 +88,47 @@ fun MovieDetailsCommentsContainer(
 
 @Preview
 @Composable
-private fun MovieDetailsCommentsContainerPreview() {
+private fun MovieDetailsReviewsContainerPreview() {
     Movie2YouTheme {
         val comments = listOf(
-            MovieDetailsComment(
-                name = "Alexandra",
+            MovieDetailsReview(
+                id = "1",
+                userName = "Alexandra",
                 comment = "It was great. This movie was a continuation of the Avengers of the Eternal War. See it first and then this movie"
             ),
-            MovieDetailsComment(
-                name = "Jason",
+            MovieDetailsReview(
+                id = "2",
+                userName = "Jason",
                 comment = "The best hero is Iron Man. Not because of his clothes, but because of his personality"
             ),
-            MovieDetailsComment(
-                name = "Amanda",
+            MovieDetailsReview(
+                id = "3",
+                userName = "Amanda",
                 comment = "It was interesting. I think Loki and Stark and Captain America will die soon"
             )
         )
 
-        MovieDetailsCommentsContainer(movieDetailsCommentList = comments)
+        val uiState = UiState<List<MovieDetailsReview>?>(data = comments)
+        MovieDetailsReviewsContainer(uiState = uiState)
     }
 }
 
 @Composable
 private fun MovieComment(
-    movieDetailsComment: MovieDetailsComment
+    movieDetailsReview: MovieDetailsReview
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Text(
-            text = movieDetailsComment.name,
+            text = movieDetailsReview.userName,
             color = TitleTextColor,
             fontWeight = FontWeight.SemiBold,
             style = MaterialTheme.typography.bodySmall
         )
 
         Text(
-            text = movieDetailsComment.comment,
+            text = movieDetailsReview.comment,
             color = CommentsTextColor,
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(vertical = 8.dp)
@@ -113,8 +144,9 @@ private fun MovieComment(
 @Composable
 private fun MovieCommentPreview() {
     Movie2YouTheme {
-        val comment = MovieDetailsComment(
-            name = "Alexandra",
+        val comment = MovieDetailsReview(
+            id = "1",
+            userName = "Alexandra",
             comment = "It was great. This movie was a continuation of the Avengers of the Eternal War. See it first and then this movie"
         )
 

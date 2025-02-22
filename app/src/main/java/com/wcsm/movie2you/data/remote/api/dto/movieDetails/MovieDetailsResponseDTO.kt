@@ -46,6 +46,7 @@ data class MovieDetailsResponseDTO(
 ) {
     fun toMovieDetails() : MovieDetails {
         val movieGenres = this.genres.map { it.name }
+        val movieDuration = formatTime(this.runtime)
 
         return MovieDetails(
             backdropPath = this.backdropPath,
@@ -53,9 +54,19 @@ data class MovieDetailsResponseDTO(
             id = this.id,
             overview = this.overview,
             posterPath = this.posterPath,
-            runtime = this.runtime,
+            runtime = movieDuration,
             title = this.title,
-            voteAverage = this.voteAverage
+            voteAverage = "%.1f".format(this.voteAverage).replace(",", ".")
         )
     }
+}
+
+private fun formatTime(minutes: Int) : String {
+    val hours = minutes / 60
+    val remainingMinutes = minutes % 60
+
+    return buildString {
+        if (hours > 0) append("$hours hora(s) ")
+        if (remainingMinutes > 0 || hours == 0) append("$remainingMinutes minuto(s)")
+    }.trim()
 }

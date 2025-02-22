@@ -1,6 +1,7 @@
 package com.wcsm.movie2you.data.remote.api
 
 import com.wcsm.movie2you.data.remote.api.dto.getMovies.MoviesResponseDTO
+import com.wcsm.movie2you.data.remote.api.dto.movieComments.MovieCommentsDTO
 import com.wcsm.movie2you.data.remote.api.dto.movieDetails.MovieDetailsResponseDTO
 import retrofit2.Response
 import retrofit2.http.GET
@@ -8,6 +9,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TMDBAPIService {
+    // Movies List
     @GET("now_playing")
     suspend fun getNowPlayingMovies(
         @Query("language") language: String
@@ -28,17 +30,22 @@ interface TMDBAPIService {
         @Query("language") language: String
     ) : Response<MoviesResponseDTO>
 
+    // Movie Details
     @GET("{movie_id}")
     suspend fun getMovieDetails(
-        @Path("movie_id") movieId: Int
+        @Path("movie_id") movieId: Int,
+        @Query("language") language: String
     ) : Response<MovieDetailsResponseDTO>
+
+    @GET("{movie_id}/reviews")
+    suspend fun getMovieReviews(
+        @Path("movie_id") movieId: Int,
+        @Query("language") language: String
+    ) : Response<MovieCommentsDTO>
+
+    @GET("{movie_id}/similar")
+    suspend fun getSimilarMovies(
+        @Path("movie_id") movieId: Int,
+        @Query("language") language: String
+    ) : Response<MoviesResponseDTO>
 }
-
-// GET NOW PLAYING
-// GET TOP RATED
-// GET UPCOMING
-// GET POPULAR
-
-// GET DETAILS
-// GET SIMILAR MOVIES
-// GET REVIEWS

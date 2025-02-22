@@ -9,20 +9,20 @@ import kotlinx.coroutines.flow.flow
 import java.net.UnknownHostException
 
 class MoviesRepositoryImpl(
-    private val tmdbapiService: TMDBAPIService
+    private val tmdbApiService: TMDBAPIService
 ) : MoviesRepository {
     override suspend fun getNowPlayingMovies(): Flow<MoviesResponse<List<Movie>>> = flow {
         try {
             emit(MoviesResponse.Loading)
 
-            val response = tmdbapiService.getNowPlayingMovies(language = "pt-BR")
+            val response = tmdbApiService.getNowPlayingMovies(language = "pt-BR")
 
             if(response.isSuccessful && response.body() != null) {
                 val nowPlayingMovies = response.body()?.results
 
                 if(nowPlayingMovies != null) {
                     if(nowPlayingMovies.isEmpty()) {
-                        emit(MoviesResponse.Error("Erro ao buscar filmes em exibição: sem filmes disponíveis no momento."))
+                        emit(MoviesResponse.Error("Sem filmes disponíveis no momento para a categoria  Em Exibição."))
                     } else {
                         emit(MoviesResponse.Success(nowPlayingMovies.map { it.toMovie() }))
                     }
@@ -45,14 +45,14 @@ class MoviesRepositoryImpl(
         try {
             emit(MoviesResponse.Loading)
 
-            val response = tmdbapiService.getUpcomingMovies(language = "pt-BR")
+            val response = tmdbApiService.getUpcomingMovies(language = "pt-BR")
 
             if(response.isSuccessful && response.body() != null) {
                 val upcomingMovies = response.body()?.results
 
                 if(upcomingMovies != null) {
                     if(upcomingMovies.isEmpty()) {
-                        emit(MoviesResponse.Error("Erro ao buscar filmes \"Em Breve\": sem filmes disponíveis no momento."))
+                        emit(MoviesResponse.Error("Sem filmes disponíveis no momento para a categoria \"Em Breve\"."))
                     } else {
                         emit(MoviesResponse.Success(upcomingMovies.map { it.toMovie() }))
                     }
@@ -75,14 +75,14 @@ class MoviesRepositoryImpl(
         try {
             emit(MoviesResponse.Loading)
 
-            val response = tmdbapiService.getPopularMovies(language = "pt-BR")
+            val response = tmdbApiService.getPopularMovies(language = "pt-BR")
 
             if(response.isSuccessful && response.body() != null) {
                 val popularMovies = response.body()?.results
 
                 if(popularMovies != null) {
                     if(popularMovies.isEmpty()) {
-                        emit(MoviesResponse.Error("Erro ao buscar filmes populares: sem filmes disponíveis no momento."))
+                        emit(MoviesResponse.Error("Sem filmes disponíveis no momento para a categoria Mais Populares."))
                     } else {
                         emit(MoviesResponse.Success(popularMovies.map { it.toMovie() }))
                     }
@@ -105,14 +105,14 @@ class MoviesRepositoryImpl(
         try {
             emit(MoviesResponse.Loading)
 
-            val response = tmdbapiService.getTopRatedMovies(language = "pt-BR")
+            val response = tmdbApiService.getTopRatedMovies(language = "pt-BR")
 
             if(response.isSuccessful && response.body() != null) {
                 val topRatedMovies = response.body()?.results
 
                 if(topRatedMovies != null) {
                     if(topRatedMovies.isEmpty()) {
-                        emit(MoviesResponse.Error("Erro ao buscar filmes melhores avaliados: sem filmes disponíveis no momento."))
+                        emit(MoviesResponse.Error("Sem filmes disponíveis no momento para a categoria Melhores Avaliados."))
                     } else {
                         emit(MoviesResponse.Success(topRatedMovies.map { it.toMovie() }))
                     }

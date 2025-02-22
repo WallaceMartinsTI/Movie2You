@@ -8,6 +8,6 @@ sealed class MoviesResponse<out T> {
     ) : MoviesResponse<T>()
 
     data class Error(
-        val message: String
+        val errorMessage: String
     ) : MoviesResponse<Nothing>()
 }

@@ -1,4 +1,4 @@
-package com.wcsm.movie2you.domain.usecase
+package com.wcsm.movie2you.domain.usecase.moviesList
 
 import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.domain.model.MoviesResponse

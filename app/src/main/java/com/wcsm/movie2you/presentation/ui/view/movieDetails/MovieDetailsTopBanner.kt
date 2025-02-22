@@ -43,6 +43,14 @@ fun MovieDetailsTopBanner(
     val imageBaseUrl = Constants.TMDB_MOVIE_IMAGE_BASE_URL
     val backdropImageUrl = "$imageBaseUrl$imageSize${movieDetails.backdropPath}"
 
+    val movieGenres = if(movieDetails.genres.size >= 2) {
+        "${movieDetails.genres[0]} • ${movieDetails.genres[1]}"
+    } else if (movieDetails.genres.size == 1) {
+        movieDetails.genres[0]
+    } else {
+        ""
+    }
+
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
@@ -87,13 +95,13 @@ fun MovieDetailsTopBanner(
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                     Text(
-                        text = "1 hora(s) 39 minuto(s)",
+                        text = movieDetails.runtime,
                         color = TitleTextColor,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Normal
                     )
                     Text(
-                        text = "Action • Super Hero",
+                        text = movieGenres,
                         color = TitleTextColor,
                         fontSize = 13.sp
                     )
@@ -108,7 +116,7 @@ fun MovieDetailsTopBanner(
                         )
 
                         Text(
-                            text = "8.9 / 10 Média de Votos",
+                            text = "${movieDetails.voteAverage} / 10 Média de Votos",
                             color = LightGrayColor,
                         )
                     }
@@ -138,9 +146,9 @@ private fun MovieDetailsTopBannerPreview() {
             id = 278,
             overview = "Em 1946, Andy Dufresne, um banqueiro jovem e bem sucedido, tem a sua vida radicalmente modificada ao ser condenado por um crime que nunca cometeu, o homicídio de sua esposa e do amante dela. Ele é mandado para uma prisão que é o pesadelo de qualquer detento, a Penitenciária Estadual de Shawshank, no Maine. Lá ele irá cumprir a pena perpétua. Andy logo será apresentado a Warden Norton, o corrupto e cruel agente penitenciário, que usa a Bíblia como arma de controle e ao Capitão Byron Hadley que trata os internos como animais. Andy faz amizade com Ellis Boyd Redding, um prisioneiro que cumpre pena há 20 anos e controla o mercado negro da instituição.",
             posterPath = "/xSnM4ahmz692msbMTBsfBWHvR3M.jpg",
-            runtime = 142,
+            runtime = "2 hora(s) e 22 minuto(s)",
             title = "Um Sonho de Liberdade",
-            voteAverage = 8.708,
+            voteAverage = "8.7",
         )
 
         MovieDetailsTopBanner(movieDetails = movieDetails) {}

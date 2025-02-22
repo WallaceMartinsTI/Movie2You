@@ -3,10 +3,10 @@ package com.wcsm.movie2you.di
 import com.wcsm.movie2you.data.remote.api.TMDBAPIService
 import com.wcsm.movie2you.data.remote.api.repository.MoviesRepositoryImpl
 import com.wcsm.movie2you.domain.repository.MoviesRepository
-import com.wcsm.movie2you.domain.usecase.GetNowPlayingMoviesUseCase
-import com.wcsm.movie2you.domain.usecase.GetPopularMoviesUseCase
-import com.wcsm.movie2you.domain.usecase.GetTopRatedMoviesUseCase
-import com.wcsm.movie2you.domain.usecase.GetUpcomingMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.moviesList.GetNowPlayingMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.moviesList.GetPopularMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.moviesList.GetTopRatedMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.moviesList.GetUpcomingMoviesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import dagger.hilt.android.components.ViewModelComponent
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object AppModule {
+object MovieListModule {
 
     @Provides
     fun providesMoviesRepository(
