@@ -10,7 +10,7 @@ class TMDBAuthInterceptor : Interceptor {
         val request = requestBuilder.addHeader(
             "accept", "application/json"
         ).addHeader(
-            "Authorization", Constants.BEARER_AUTHORIZATION
+            "Authorization", Constants.TMDB_BEARER_AUTHORIZATION
         ).build()
 
         return chain.proceed(request)

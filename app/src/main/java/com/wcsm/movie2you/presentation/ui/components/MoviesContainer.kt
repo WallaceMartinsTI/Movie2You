@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wcsm.movie2you.domain.model.Movie
+import com.wcsm.movie2you.presentation.model.UiState
 import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor
 import com.wcsm.movie2you.presentation.ui.theme.AppIconColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
@@ -28,9 +29,8 @@ import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 @Composable
 fun MoviesContainer(
     title: String,
-    moviesList: List<Movie>,
+    movies: UiState<List<Movie>>?,
     modifier: Modifier = Modifier,
-    error: String? = null,
     onTryRequestAgain: () -> Unit,
     onMovieCardClick: (movieId: Int) -> Unit
 ) {
@@ -49,40 +49,23 @@ fun MoviesContainer(
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
-            if(error?.isNotBlank() == true) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = error,
-                        color = AppIconColor,
-                        fontWeight = FontWeight.SemiBold
-                    )
-
-                    Button(
-                        onClick = { onTryRequestAgain() },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = AppIconColor.copy(alpha = 0.7f)
-                        )
-                    ) {
-                        Text(
-                            text = "Tentar Novamente"
-                        )
-                    }
-                }
-            } else {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(moviesList) { movie ->
-                        MovieCard(
-                            movie = movie
-                        ) { movieId ->
-                            onMovieCardClick(movieId)
+            movies?.let { moviesState ->
+                if(!moviesState.isLoading) {
+                    if(movies.error?.isNotBlank() == true) {
+                        NoMovies(message = movies.error) { onTryRequestAgain() }
+                    } else if(movies.data.isEmpty()) {
+                        NoMovies(message = "Sem filmes no momento") { onTryRequestAgain() }
+                    } else {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(movies.data) { movie ->
+                                MovieCard(
+                                    movie = movie
+                                ) { movieId ->
+                                    onMovieCardClick(movieId)
+                                }
+                            }
                         }
                     }
                 }
@@ -128,9 +111,48 @@ private fun MoviesContainerPreview() {
         ) {
             MoviesContainer(
                 title = "Em Exibição",
-                moviesList = movies,
+                movies =  UiState(data = movies),
                 onTryRequestAgain = {}
             ) {}
         }
+    }
+}
+
+@Composable
+private fun NoMovies(
+    message: String,
+    onTryAgain: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = message,
+            color = AppIconColor,
+            fontWeight = FontWeight.SemiBold
+        )
+
+        Button(
+            onClick = { onTryAgain() },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = AppIconColor.copy(alpha = 0.7f)
+            )
+        ) {
+            Text(
+                text = "Tentar Novamente"
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun NoMoviesPreview() {
+    Movie2YouTheme {
+        NoMovies("Sem filmes no momento") { }
     }
 }

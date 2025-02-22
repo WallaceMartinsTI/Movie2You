@@ -1,5 +1,6 @@
 package com.wcsm.movie2you.data.remote.api.repository
 
+import android.util.Log
 import com.wcsm.movie2you.data.remote.api.TMDBAPIService
 import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.domain.model.MovieDetails
@@ -17,8 +18,8 @@ class MovieDetailsRepositoryImpl(
         try {
             emit(MoviesResponse.Loading)
 
-            val teste = if(movieId == 238) 999 else movieId
-            val response = tmdbApiService.getMovieDetails(movieId = teste, language = "pt-BR")
+            //val teste = if(movieId == 238) 999 else movieId
+            val response = tmdbApiService.getMovieDetails(movieId = movieId, language = "pt-BR")
 
             if(response.isSuccessful && response.body() != null) {
                 val movieDetails = response.body()
@@ -71,11 +72,12 @@ class MovieDetailsRepositoryImpl(
     }
 
     override suspend fun getSimilarMovies(movieId: Int): Flow<MoviesResponse<List<Movie>>> = flow {
+        //Log.i("#-# TESTE #-#", "GET SIMILAR MOVIE - MovieID: $movieId")
         try {
             emit(MoviesResponse.Loading)
 
-            val teste = if(movieId == 240) 999 else movieId
-            val response = tmdbApiService.getSimilarMovies(movieId = teste, language = "pt-BR")
+            //val teste = if(movieId == 240) 999 else movieId
+            val response = tmdbApiService.getSimilarMovies(movieId = movieId, language = "pt-BR")
 
             if(response.isSuccessful && response.body() != null) {
                 val similarMovies = response.body()?.results

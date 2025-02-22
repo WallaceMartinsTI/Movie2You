@@ -8,9 +8,11 @@ import com.wcsm.movie2you.domain.usecase.moviesList.GetNowPlayingMoviesUseCase
 import com.wcsm.movie2you.domain.usecase.moviesList.GetPopularMoviesUseCase
 import com.wcsm.movie2you.domain.usecase.moviesList.GetTopRatedMoviesUseCase
 import com.wcsm.movie2you.domain.usecase.moviesList.GetUpcomingMoviesUseCase
+import com.wcsm.movie2you.presentation.model.MovieCategory
 import com.wcsm.movie2you.presentation.model.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -24,130 +26,50 @@ class MoviesListViewModel @Inject constructor(
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase
 ) : ViewModel() {
 
-    /* FAZER CACHE DOS FILMES */
+    private val _movies = MutableStateFlow<Map<MovieCategory, UiState<List<Movie>>>>(emptyMap())
+    val movies = _movies.asStateFlow()
 
-    private val _nowPlayingMoviesState = MutableStateFlow(UiState<List<Movie>>(data = emptyList()))
-    val nowPlayingMoviesState = _nowPlayingMoviesState.asStateFlow()
+    private val _cachedMovies = MutableStateFlow<Map<MovieCategory, List<Movie>>>(emptyMap())
 
-    private val _upcomingMoviesState = MutableStateFlow(UiState<List<Movie>>(data = emptyList()))
-    val upcomingMoviesState = _upcomingMoviesState.asStateFlow()
-
-    private val _popularMoviesState = MutableStateFlow(UiState<List<Movie>>(data = emptyList()))
-    val popularMoviesState = _popularMoviesState.asStateFlow()
-
-    private val _topRatedMoviesState = MutableStateFlow(UiState<List<Movie>>(data = emptyList()))
-    val topRatedMoviesState = _topRatedMoviesState.asStateFlow()
+    private val moviesUseCases: Map<MovieCategory, suspend () -> Flow<MoviesResponse<List<Movie>>>> = mapOf(
+        MovieCategory.NOW_PLAYING to { getNowPlayingMoviesUseCase() },
+        MovieCategory.UPCOMING to { getUpcomingMoviesUseCase() },
+        MovieCategory.POPULAR to { getPopularMoviesUseCase() },
+        MovieCategory.TOP_RATED to { getTopRatedMoviesUseCase() }
+    )
 
     fun getAllMovies() {
-        getNowPlayingMovies()
-        getUpcomingMovies()
-        getPopularMovies()
-        getTopRatedMovies()
-    }
-
-    fun getNowPlayingMovies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            getNowPlayingMoviesUseCase().collect { moviesResponse ->
-                when(moviesResponse) {
-                    is MoviesResponse.Loading -> {
-                        _nowPlayingMoviesState.value = UiState(
-                            isLoading = true,
-                            data = emptyList()
-                        )
-                    }
-                    is MoviesResponse.Error -> {
-                        _nowPlayingMoviesState.value = UiState(
-                            error = moviesResponse.errorMessage,
-                            data = emptyList()
-                        )
-                    }
-                    is MoviesResponse.Success -> {
-                        _nowPlayingMoviesState.value = UiState(
-                            success = true,
-                            data = moviesResponse.data
-                        )
-                    }
-                }
-            }
+        MovieCategory.entries.forEach { movieCategory ->
+            getMoviesByCategory(movieCategory)
         }
     }
 
-    fun getUpcomingMovies() {
+    fun getMoviesByCategory(movieCategory: MovieCategory) {
         viewModelScope.launch(Dispatchers.IO) {
-            getUpcomingMoviesUseCase().collect { moviesResponse ->
-                when(moviesResponse) {
-                    is MoviesResponse.Loading -> {
-                        _upcomingMoviesState.value = UiState(
-                            isLoading = true,
-                            data = emptyList()
-                        )
-                    }
-                    is MoviesResponse.Error -> {
-                        _upcomingMoviesState.value = UiState(
-                            error = moviesResponse.errorMessage,
-                            data = emptyList()
-                        )
-                    }
+            val cachedMovies = _cachedMovies.value[movieCategory]
+            if(cachedMovies != null) {
+                _movies.value = _movies.value.toMutableMap().apply {
+                    put(movieCategory, UiState(data = cachedMovies))
+                }
+                return@launch
+            }
+
+            val useCase = moviesUseCases[movieCategory] ?: return@launch
+
+            useCase().collect { movieResponse ->
+                val newState = when(movieResponse) {
+                    is MoviesResponse.Loading -> UiState(isLoading = true, data = emptyList())
+                    is MoviesResponse.Error -> UiState(error = movieResponse.errorMessage, data = emptyList())
                     is MoviesResponse.Success -> {
-                        _upcomingMoviesState.value = UiState(
-                            success = true,
-                            data = moviesResponse.data
-                        )
+                        _cachedMovies.value = _cachedMovies.value.toMutableMap().apply {
+                            put(movieCategory, movieResponse.data)
+                        }
+                        UiState(success = true, data = movieResponse.data)
                     }
                 }
-            }
-        }
-    }
 
-    fun getPopularMovies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            getPopularMoviesUseCase().collect { moviesResponse ->
-                when(moviesResponse) {
-                    is MoviesResponse.Loading -> {
-                        _popularMoviesState.value = UiState(
-                            isLoading = true,
-                            data = emptyList()
-                        )
-                    }
-                    is MoviesResponse.Error -> {
-                        _popularMoviesState.value = UiState(
-                            error = moviesResponse.errorMessage,
-                            data = emptyList()
-                        )
-                    }
-                    is MoviesResponse.Success -> {
-                        _popularMoviesState.value = UiState(
-                            success = true,
-                            data = moviesResponse.data
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    fun getTopRatedMovies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            getTopRatedMoviesUseCase().collect { moviesResponse ->
-                when(moviesResponse) {
-                    is MoviesResponse.Loading -> {
-                        _topRatedMoviesState.value = UiState(
-                            isLoading = true,
-                            data = emptyList()
-                        )
-                    }
-                    is MoviesResponse.Error -> {
-                        _topRatedMoviesState.value = UiState(
-                            error = moviesResponse.errorMessage,
-                            data = emptyList()
-                        )
-                    }
-                    is MoviesResponse.Success -> {
-                        _topRatedMoviesState.value = UiState(
-                            success = true,
-                            data = moviesResponse.data
-                        )
-                    }
+                _movies.value = _movies.value.toMutableMap().apply {
+                    put(movieCategory, newState)
                 }
             }
         }

@@ -24,7 +24,7 @@ data class MovieDetailsResponseDTO(
     val overview: String,
     val popularity: Double,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("production_companies")
     val productionCompanies: List<ProductionCompany>,
     @SerializedName("production_countries")
@@ -53,7 +53,7 @@ data class MovieDetailsResponseDTO(
             genres = movieGenres,
             id = this.id,
             overview = this.overview,
-            posterPath = this.posterPath,
+            posterPath = this.posterPath ?: "",
             runtime = movieDuration,
             title = this.title,
             voteAverage = "%.1f".format(this.voteAverage).replace(",", ".")

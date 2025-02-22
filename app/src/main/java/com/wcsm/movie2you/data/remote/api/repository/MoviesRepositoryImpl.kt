@@ -4,6 +4,7 @@ import com.wcsm.movie2you.data.remote.api.TMDBAPIService
 import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.domain.model.MoviesResponse
 import com.wcsm.movie2you.domain.repository.MoviesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.net.UnknownHostException

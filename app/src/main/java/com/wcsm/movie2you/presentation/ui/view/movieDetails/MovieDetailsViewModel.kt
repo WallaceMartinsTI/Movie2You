@@ -27,14 +27,26 @@ class MovieDetailsViewModel @Inject constructor(
     private val _movieDetails = MutableStateFlow<UiState<MovieDetails?>>(UiState(data = null))
     val movieDetails = _movieDetails.asStateFlow()
 
+    private val _cachedMovieDetails = MutableStateFlow<Map<Int, MovieDetails>>(emptyMap())
+
     private val _movieReviews = MutableStateFlow<UiState<List<MovieDetailsReview>?>>(UiState(data = null))
     val movieReviews = _movieReviews.asStateFlow()
+
+    private val _cachedMovieReviews = MutableStateFlow<Map<Int, List<MovieDetailsReview>>>(emptyMap())
 
     private val _similarMovies = MutableStateFlow<UiState<List<Movie>>>(UiState(data = emptyList()))
     val similarMovies = _similarMovies.asStateFlow()
 
+    private val _cachedSimilarMovies = MutableStateFlow<Map<Int, List<Movie>>>(emptyMap())
+
     fun getMovieDetails(movieId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            val cachedMovieDetails = _cachedMovieDetails.value[movieId]
+            if(cachedMovieDetails != null) {
+                _movieDetails.value = UiState(data = cachedMovieDetails)
+                return@launch
+            }
+
             getMovieDetailsUseCase(movieId).collect { movieDetailsResponse ->
                 when(movieDetailsResponse) {
                     is MoviesResponse.Loading -> {
@@ -50,6 +62,9 @@ class MovieDetailsViewModel @Inject constructor(
                         )
                     }
                     is MoviesResponse.Success -> {
+                        _cachedMovieDetails.value = _cachedMovieDetails.value.toMutableMap().apply {
+                            put(movieId, movieDetailsResponse.data)
+                        }
                         _movieDetails.value = UiState(
                             success = true,
                             data = movieDetailsResponse.data
@@ -62,6 +77,12 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun getMovieReviews(movieId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            val cachedMovieReviews = _cachedMovieReviews.value[movieId]
+            if(cachedMovieReviews != null) {
+                _movieReviews.value = UiState(data = cachedMovieReviews)
+                return@launch
+            }
+
             getMovieReviewsUseCase(movieId).collect { movieReviewsResponse ->
                 when(movieReviewsResponse) {
                     is MoviesResponse.Loading -> {
@@ -77,6 +98,10 @@ class MovieDetailsViewModel @Inject constructor(
                         )
                     }
                     is MoviesResponse.Success -> {
+                        _cachedMovieReviews.value = _cachedMovieReviews.value.toMutableMap().apply {
+                            put(movieId, movieReviewsResponse.data)
+                        }
+
                         _movieReviews.value = UiState(
                             success = true,
                             data = movieReviewsResponse.data
@@ -89,6 +114,12 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun getSimilarMovies(movieId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            val cachedSimilarMovies = _cachedSimilarMovies.value[movieId]
+            if(cachedSimilarMovies != null) {
+                _similarMovies.value = UiState(data = cachedSimilarMovies)
+                return@launch
+            }
+
             getSimilarMoviesUseCase(movieId).collect { similarMovieResponse ->
                 when(similarMovieResponse) {
                     is MoviesResponse.Loading -> {
@@ -104,6 +135,10 @@ class MovieDetailsViewModel @Inject constructor(
                         )
                     }
                     is MoviesResponse.Success -> {
+                        _cachedSimilarMovies.value = _cachedSimilarMovies.value.toMutableMap().apply {
+                            put(movieId, similarMovieResponse.data)
+                        }
+
                         _similarMovies.value = UiState(
                             success = true,
                             data = similarMovieResponse.data

@@ -1,6 +1,5 @@
 package com.wcsm.movie2you.presentation.ui.view.moviesList
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wcsm.movie2you.R
+import com.wcsm.movie2you.presentation.model.MovieCategory
 import com.wcsm.movie2you.presentation.ui.components.ExitAppDialog
 import com.wcsm.movie2you.presentation.ui.components.MoviesContainer
 import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor
@@ -42,10 +42,7 @@ fun MoviesView(
 
     val localActivity = LocalActivity.current
 
-    val nowPlayingMoviesState by moviesListViewModel.nowPlayingMoviesState.collectAsStateWithLifecycle()
-    val upcomingMoviesState by moviesListViewModel.upcomingMoviesState.collectAsStateWithLifecycle()
-    val popularMoviesState by moviesListViewModel.popularMoviesState.collectAsStateWithLifecycle()
-    val topRatedMoviesState by moviesListViewModel.topRatedMoviesState.collectAsStateWithLifecycle()
+    val movies by moviesListViewModel.movies.collectAsStateWithLifecycle()
 
     var showExitAppDialog by remember { mutableStateOf(false) }
 
@@ -54,7 +51,6 @@ fun MoviesView(
     }
 
     LaunchedEffect(Unit) {
-        Log.i("#-# TESTE #-#", "CHAMOU UNIT - GET ALL MOVIES")
         moviesListViewModel.getAllMovies()
     }
 
@@ -84,36 +80,32 @@ fun MoviesView(
             ) {
                 MoviesContainer(
                     title = "Em Exibição",
-                    error = nowPlayingMoviesState.error,
-                    moviesList = nowPlayingMoviesState.data,
-                    onTryRequestAgain = { moviesListViewModel.getNowPlayingMovies() }
+                    movies = movies[MovieCategory.NOW_PLAYING],
+                    onTryRequestAgain = { moviesListViewModel.getMoviesByCategory(MovieCategory.NOW_PLAYING) }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
                 }
 
                 MoviesContainer(
                     title = "Em Breve",
-                    error = upcomingMoviesState.error,
-                    moviesList = upcomingMoviesState.data,
-                    onTryRequestAgain = { moviesListViewModel.getUpcomingMovies() }
+                    movies = movies[MovieCategory.UPCOMING],
+                    onTryRequestAgain = { moviesListViewModel.getMoviesByCategory(MovieCategory.UPCOMING) }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
                 }
 
                 MoviesContainer(
                     title = "Mais Populares",
-                    error = popularMoviesState.error,
-                    moviesList = popularMoviesState.data,
-                    onTryRequestAgain = { moviesListViewModel.getPopularMovies() }
+                    movies = movies[MovieCategory.POPULAR],
+                    onTryRequestAgain = { moviesListViewModel.getMoviesByCategory(MovieCategory.POPULAR) }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
                 }
 
                 MoviesContainer(
                     title = "Melhores Avaliados",
-                    error = topRatedMoviesState.error,
-                    moviesList = topRatedMoviesState.data,
-                    onTryRequestAgain = { moviesListViewModel.getTopRatedMovies() }
+                    movies = movies[MovieCategory.TOP_RATED],
+                    onTryRequestAgain = { moviesListViewModel.getMoviesByCategory(MovieCategory.TOP_RATED) }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
                 }
