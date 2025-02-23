@@ -31,14 +31,14 @@ object MovieModule {
     }
 
     @Provides
-    fun providesGetMovieDetails(
+    fun providesGetMovieDetailsUseCase(
         moviesRepository: MoviesRepository
     ) : GetMovieDetailsUseCase {
         return GetMovieDetailsUseCase(moviesRepository)
     }
 
     @Provides
-    fun providesGetMovieReviews(
+    fun providesGetMovieReviewsUseCase(
         moviesRepository: MoviesRepository
     ) : GetMovieReviewsUseCase {
         return GetMovieReviewsUseCase(moviesRepository)
