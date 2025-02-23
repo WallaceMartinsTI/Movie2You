@@ -120,17 +120,17 @@ private fun MovieDetailsReviewsContainerPreview() {
             MovieDetailsReview(
                 id = "1",
                 userName = "Alexandra",
-                comment = "It was great. This movie was a continuation of the Avengers of the Eternal War. See it first and then this movie"
+                review = "It was great. This movie was a continuation of the Avengers of the Eternal War. See it first and then this movie"
             ),
             MovieDetailsReview(
                 id = "2",
                 userName = "Jason",
-                comment = "The best hero is Iron Man. Not because of his clothes, but because of his personality"
+                review = "The best hero is Iron Man. Not because of his clothes, but because of his personality"
             ),
             MovieDetailsReview(
                 id = "3",
                 userName = "Amanda",
-                comment = "It was interesting. I think Loki and Stark and Captain America will die soon"
+                review = "It was interesting. I think Loki and Stark and Captain America will die soon"
             )
         )
 
@@ -154,7 +154,7 @@ private fun MovieComment(
         )
 
         Text(
-            text = movieDetailsReview.comment,
+            text = movieDetailsReview.review,
             color = CommentsTextColor,
             style = MaterialTheme.typography.bodySmall,
             maxLines = 3,
@@ -175,7 +175,7 @@ private fun MovieCommentPreview() {
         val comment = MovieDetailsReview(
             id = "1",
             userName = "Alexandra",
-            comment = "It was great. This movie was a continuation of the Avengers of the Eternal War. See it first and then this movie"
+            review = "It was great. This movie was a continuation of the Avengers of the Eternal War. See it first and then this movie"
         )
 
         MovieComment(comment)

@@ -10,7 +10,8 @@ data class MovieDetailsResponseDTO(
     @SerializedName("belongs_to_collection")
     val belongsToCollection: Any,
     val budget: Int,
-    val genres: List<Genre>,
+    @SerializedName("genres")
+    val movieGenres: List<MovieGenre>,
     val homepage: String,
     val id: Int,
     @SerializedName("imdb_id")
@@ -45,7 +46,7 @@ data class MovieDetailsResponseDTO(
     val voteCount: Int
 ) {
     fun toMovieDetails() : MovieDetails {
-        val movieGenres = this.genres.map { it.name }
+        val movieGenres = this.movieGenres.map { it.name }
         val movieDuration = formatTime(this.runtime)
 
         return MovieDetails(

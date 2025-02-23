@@ -6,9 +6,9 @@ import com.wcsm.movie2you.domain.model.Movie
 import com.wcsm.movie2you.domain.model.MovieDetails
 import com.wcsm.movie2you.domain.model.MovieDetailsReview
 import com.wcsm.movie2you.domain.model.MoviesResponse
-import com.wcsm.movie2you.domain.usecase.movieDetails.GetMovieDetailsUseCase
-import com.wcsm.movie2you.domain.usecase.movieDetails.GetMovieReviewsUseCase
-import com.wcsm.movie2you.domain.usecase.movieDetails.GetSimilarMoviesUseCase
+import com.wcsm.movie2you.domain.usecase.GetMovieDetailsUseCase
+import com.wcsm.movie2you.domain.usecase.GetMovieReviewsUseCase
+import com.wcsm.movie2you.domain.usecase.GetSimilarMoviesUseCase
 import com.wcsm.movie2you.presentation.model.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

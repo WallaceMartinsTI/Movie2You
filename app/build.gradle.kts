@@ -95,6 +95,18 @@ dependencies {
 
     testImplementation(libs.junit)
 
+    // Truth
+    testImplementation("com.google.truth:truth:1.4.2")
+
+    // Turbine
+    testImplementation("app.cash.turbine:turbine:1.2.0")
+
+    // Mockito
+    testImplementation("org.mockito:mockito-core:5.5.0")
+
+    // Coroutine Test
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

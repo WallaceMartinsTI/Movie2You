@@ -3,7 +3,7 @@ package com.wcsm.movie2you.data.remote.api.dto.getMovies
 import com.google.gson.annotations.SerializedName
 import com.wcsm.movie2you.domain.model.Movie
 
-data class Result(
+data class MovieResult(
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,

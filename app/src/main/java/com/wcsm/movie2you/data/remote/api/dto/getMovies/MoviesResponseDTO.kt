@@ -3,9 +3,11 @@ package com.wcsm.movie2you.data.remote.api.dto.getMovies
 import com.google.gson.annotations.SerializedName
 
 data class MoviesResponseDTO(
-    val dates: Dates,
+    @SerializedName("dates")
+    val moviesDates: MoviesDates,
     val page: Int,
-    val results: List<Result>,
+    @SerializedName("results")
+    val movieResults: List<MovieResult>?,
     @SerializedName("total_pages")
     val totalPages: Int,
     @SerializedName("total_results")

@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wcsm.movie2you.R
-import com.wcsm.movie2you.presentation.model.MovieCategory
+import com.wcsm.movie2you.domain.model.MovieCategory
 import com.wcsm.movie2you.presentation.ui.components.ExitAppDialog
 import com.wcsm.movie2you.presentation.ui.components.MoviesContainer
 import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor

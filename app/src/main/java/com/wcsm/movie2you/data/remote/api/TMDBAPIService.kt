@@ -1,7 +1,7 @@
 package com.wcsm.movie2you.data.remote.api
 
 import com.wcsm.movie2you.data.remote.api.dto.getMovies.MoviesResponseDTO
-import com.wcsm.movie2you.data.remote.api.dto.movieComments.MovieCommentsDTO
+import com.wcsm.movie2you.data.remote.api.dto.movieReviews.MovieReviewsDTO
 import com.wcsm.movie2you.data.remote.api.dto.movieDetails.MovieDetailsResponseDTO
 import retrofit2.Response
 import retrofit2.http.GET
@@ -41,7 +41,7 @@ interface TMDBAPIService {
     suspend fun getMovieReviews(
         @Path("movie_id") movieId: Int,
         @Query("language") language: String
-    ) : Response<MovieCommentsDTO>
+    ) : Response<MovieReviewsDTO>
 
     @GET("{movie_id}/similar")
     suspend fun getSimilarMovies(

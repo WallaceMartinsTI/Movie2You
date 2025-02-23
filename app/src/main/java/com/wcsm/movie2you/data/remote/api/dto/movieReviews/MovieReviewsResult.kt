@@ -1,12 +1,12 @@
-package com.wcsm.movie2you.data.remote.api.dto.movieComments
+package com.wcsm.movie2you.data.remote.api.dto.movieReviews
 
 import com.google.gson.annotations.SerializedName
 import com.wcsm.movie2you.domain.model.MovieDetailsReview
 
-data class Result(
+data class MovieReviewsResult(
     val author: String,
     @SerializedName("author_details")
-    val authorDetails: AuthorDetails,
+    val movieReviewsAuthorDetails: MovieReviewsAuthorDetails,
     val content: String,
     @SerializedName("created_at")
     val createdAt: String,
@@ -18,8 +18,8 @@ data class Result(
     fun toMovieDetailsComment() : MovieDetailsReview {
         return MovieDetailsReview(
             id = this.id,
-            userName = this.authorDetails.username,
-            comment = this.content
+            userName = this.movieReviewsAuthorDetails.username,
+            review = this.content
         )
     }
 }

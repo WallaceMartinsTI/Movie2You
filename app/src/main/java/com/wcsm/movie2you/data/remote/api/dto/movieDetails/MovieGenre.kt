@@ -1,6 +1,6 @@
 package com.wcsm.movie2you.data.remote.api.dto.movieDetails
 
-data class Genre(
+data class MovieGenre(
     val id: Int,
     val name: String
 )
