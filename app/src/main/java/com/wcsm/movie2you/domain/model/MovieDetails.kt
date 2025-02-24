@@ -9,5 +9,4 @@ data class MovieDetails(
     val runtime: String,
     val title: String,
     val voteAverage: String,
-
 )

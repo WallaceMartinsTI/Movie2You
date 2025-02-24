@@ -8,11 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.wcsm.movie2you.presentation.ui.components.SeeMoreTextContent
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
-import com.wcsm.movie2you.presentation.ui.theme.TitleTextColor
 
 @Composable
 fun MovieDetailsSynopsisContainer(
@@ -28,12 +27,9 @@ fun MovieDetailsSynopsisContainer(
 
         Spacer(Modifier.height(8.dp))
 
-        Text(
-            text = movieOverview,
-            color = TitleTextColor,
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis
+        SeeMoreTextContent(
+            fullText = movieOverview,
+            maxLines = 3
         )
     }
 }

@@ -25,16 +25,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wcsm.movie2you.domain.model.MovieDetailsReview
 import com.wcsm.movie2you.presentation.model.UiState
 import com.wcsm.movie2you.presentation.ui.components.Movie2YouCircularLoading
+import com.wcsm.movie2you.presentation.ui.components.SeeMoreTextContent
 import com.wcsm.movie2you.presentation.ui.theme.AppIconColor
 import com.wcsm.movie2you.presentation.ui.theme.CommentsContainerColor
 import com.wcsm.movie2you.presentation.ui.theme.CommentsDividerColor
-import com.wcsm.movie2you.presentation.ui.theme.CommentsTextColor
 import com.wcsm.movie2you.presentation.ui.theme.LightGrayColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 import com.wcsm.movie2you.presentation.ui.theme.TitleTextColor
@@ -153,12 +152,9 @@ private fun MovieReview(
             style = MaterialTheme.typography.bodySmall
         )
 
-        Text(
-            text = movieDetailsReview.review,
-            color = CommentsTextColor,
-            style = MaterialTheme.typography.bodySmall,
+        SeeMoreTextContent(
+            fullText = movieDetailsReview.review,
             maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(vertical = 8.dp)
         )
 

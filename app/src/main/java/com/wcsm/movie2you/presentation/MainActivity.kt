@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                 SetBarColor(systemBarsColor)
 
                 LaunchedEffect(Unit) {
-                    delay(2000)
+                    delay(1500)
                     isSplashScreenVisible = false
                 }
 
