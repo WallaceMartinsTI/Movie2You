@@ -17,35 +17,35 @@ import dagger.hilt.android.components.ViewModelComponent
 object MovieModule {
 
     @Provides
-    fun providesMoviesRepository(
+    fun provideMoviesRepository(
         tmdbApiService: TMDBAPIService
     ) : MoviesRepository {
         return MoviesRepositoryImpl(tmdbApiService)
     }
 
     @Provides
-    fun providesGetMoviesByCategoryUseCase(
+    fun provideGetMoviesByCategoryUseCase(
         moviesRepository: MoviesRepository
     ) : GetMoviesByCategoryUseCase {
         return GetMoviesByCategoryUseCase(moviesRepository)
     }
 
     @Provides
-    fun providesGetMovieDetailsUseCase(
+    fun provideGetMovieDetailsUseCase(
         moviesRepository: MoviesRepository
     ) : GetMovieDetailsUseCase {
         return GetMovieDetailsUseCase(moviesRepository)
     }
 
     @Provides
-    fun providesGetMovieReviewsUseCase(
+    fun provideGetMovieReviewsUseCase(
         moviesRepository: MoviesRepository
     ) : GetMovieReviewsUseCase {
         return GetMovieReviewsUseCase(moviesRepository)
     }
 
     @Provides
-    fun providesGetSimilarMoviesUseCase(
+    fun provideGetSimilarMoviesUseCase(
         moviesRepository: MoviesRepository
     ) : GetSimilarMoviesUseCase {
         return GetSimilarMoviesUseCase(moviesRepository)

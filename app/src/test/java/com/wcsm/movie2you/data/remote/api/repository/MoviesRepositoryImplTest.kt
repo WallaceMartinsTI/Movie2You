@@ -404,7 +404,7 @@ class MoviesRepositoryImplTest {
             throw Exception("unknown error")
         }
 
-        val expectedErrorMessage = "Erro desconhecido ao buscar detalhes deste filme, favor reportar o erro."
+        val expectedErrorMessage = "Erro desconhecido ao buscar detalhes deste filme, tente mais tarde."
 
         // GIVEN & WHEN
         moviesRepository.getMovieDetails(1).test {

@@ -28,8 +28,8 @@ import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 
 @Composable
 fun MoviesContainer(
-    title: String,
-    movies: UiState<List<Movie>>?,
+    containerTitle: String,
+    moviesList: UiState<List<Movie>>?,
     modifier: Modifier = Modifier,
     onTryRequestAgain: () -> Unit,
     onMovieCardClick: (movieId: Int) -> Unit
@@ -38,7 +38,7 @@ fun MoviesContainer(
         modifier = modifier
     ) {
         Text(
-            text = title,
+            text = containerTitle,
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -49,22 +49,22 @@ fun MoviesContainer(
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
-            movies?.let { moviesState ->
+            moviesList?.let { moviesState ->
                 if(moviesState.isLoading) {
                     Movie2YouCircularLoading(
                         loadingMessage = "Carregando filmes...",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 } else {
-                    if(movies.error?.isNotBlank() == true) {
-                        NoMovies(message = movies.error) { onTryRequestAgain() }
-                    } else if(movies.data.isEmpty()) {
+                    if(moviesList.error?.isNotBlank() == true) {
+                        NoMovies(message = moviesList.error) { onTryRequestAgain() }
+                    } else if(moviesList.data.isEmpty()) {
                         NoMovies(message = "Sem filmes no momento") { onTryRequestAgain() }
                     } else {
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            items(movies.data) { movie ->
+                            items(moviesList.data) { movie ->
                                 MovieCard(
                                     movie = movie
                                 ) { movieId ->
@@ -115,8 +115,8 @@ private fun MoviesContainerPreview() {
                 .background(AppBackgroundColor)
         ) {
             MoviesContainer(
-                title = "Em Exibição",
-                movies =  UiState(data = movies),
+                containerTitle = "Em Exibição",
+                moviesList =  UiState(data = movies),
                 onTryRequestAgain = {}
             ) {}
         }

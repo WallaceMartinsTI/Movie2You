@@ -39,9 +39,9 @@ fun MovieDetailsTopBanner(
     movieDetails: MovieDetails,
     onBackPressed: () -> Unit
 ) {
-    val imageSize = Constants.TMDB_POSTER_IMAGE_SIZE
-    val imageBaseUrl = Constants.TMDB_MOVIE_IMAGE_BASE_URL
-    val backdropImageUrl = "$imageBaseUrl$imageSize${movieDetails.backdropPath}"
+    val moviePosterSize = Constants.TMDB_IMAGES_SIZE
+    val moviesImagesBaseUrl = Constants.TMDB_MOVIE_IMAGE_BASE_URL
+    val backdropImageUrl = "$moviesImagesBaseUrl$moviePosterSize${movieDetails.backdropPath}"
 
     val movieGenres = if(movieDetails.genres.size >= 2) {
         "${movieDetails.genres[0]} • ${movieDetails.genres[1]}"

@@ -2,9 +2,6 @@ package com.wcsm.movie2you.presentation.ui.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideIn
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -51,7 +48,7 @@ fun MoviesNavigation() {
                 movieDetailsViewModel = movieDetailsViewModel,
                 movieId = args.movieId,
                 onSimilarMovieClick = { movieId ->
-                    navController.popBackStack() // TESTAR INVERTER SE NAO FUNCIONAR
+                    navController.popBackStack()
                     navController.navigate(Screen.MovieDetailsScreen(movieId))
                 }
             ) {

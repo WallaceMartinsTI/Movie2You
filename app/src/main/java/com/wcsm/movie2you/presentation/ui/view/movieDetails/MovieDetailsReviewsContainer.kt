@@ -75,7 +75,7 @@ fun MovieDetailsReviewsContainer(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(uiState.data) { movieDetailsComment ->
-                            MovieComment(movieDetailsComment)
+                            MovieReview(movieDetailsReview = movieDetailsComment)
                         }
                     }
                 }
@@ -116,7 +116,7 @@ fun MovieDetailsReviewsContainer(
 @Composable
 private fun MovieDetailsReviewsContainerPreview() {
     Movie2YouTheme {
-        val comments = listOf(
+        val fakeMovieReviews = listOf(
             MovieDetailsReview(
                 id = "1",
                 userName = "Alexandra",
@@ -134,13 +134,13 @@ private fun MovieDetailsReviewsContainerPreview() {
             )
         )
 
-        val uiState = UiState<List<MovieDetailsReview>?>(data = comments)
+        val uiState = UiState<List<MovieDetailsReview>?>(data = fakeMovieReviews)
         MovieDetailsReviewsContainer(uiState = uiState) {}
     }
 }
 
 @Composable
-private fun MovieComment(
+private fun MovieReview(
     movieDetailsReview: MovieDetailsReview
 ) {
     Column(
@@ -170,14 +170,14 @@ private fun MovieComment(
 
 @Preview
 @Composable
-private fun MovieCommentPreview() {
+private fun MovieReviewPreview() {
     Movie2YouTheme {
-        val comment = MovieDetailsReview(
+        val fakeMovieReview = MovieDetailsReview(
             id = "1",
             userName = "Alexandra",
             review = "It was great. This movie was a continuation of the Avengers of the Eternal War. See it first and then this movie"
         )
 
-        MovieComment(comment)
+        MovieReview(movieDetailsReview = fakeMovieReview)
     }
 }

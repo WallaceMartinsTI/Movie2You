@@ -52,11 +52,11 @@ fun MovieCard(
     movie: Movie?,
     onMovieCardClick: ((movieId: Int) -> Unit)? = null
 ) {
-    val imageSize = Constants.TMDB_POSTER_IMAGE_SIZE
-    val imageBaseUrl = Constants.TMDB_MOVIE_IMAGE_BASE_URL
-    val posterImageUrl = "$imageBaseUrl$imageSize${movie?.posterPath}"
+    val moviePosterSize = Constants.TMDB_IMAGES_SIZE
+    val moviesImagesBaseUrl = Constants.TMDB_MOVIE_IMAGE_BASE_URL
+    val posterImageUrl = "$moviesImagesBaseUrl$moviePosterSize${movie?.posterPath}"
 
-    var isImageLoading by remember { mutableStateOf(true) }
+    var isPosterImageLoading by remember { mutableStateOf(true) }
 
     Box(
         modifier = Modifier
@@ -95,11 +95,11 @@ fun MovieCard(
                         .fillMaxSize()
                         .clickable { onMovieCardClick?.let { onMovieCardClick(movie.id) } },
                     contentScale = ContentScale.Crop,
-                    onSuccess = { isImageLoading = false }
+                    onSuccess = { isPosterImageLoading = false }
                 )
             }
 
-            if(isImageLoading) {
+            if(isPosterImageLoading) {
                 MovieCardSkeleton()
             }
         }

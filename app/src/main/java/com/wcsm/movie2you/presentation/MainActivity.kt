@@ -19,14 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.wcsm.movie2you.domain.model.Movie
-import com.wcsm.movie2you.domain.model.MovieDetails
 import com.wcsm.movie2you.presentation.ui.navigation.MoviesNavigation
 import com.wcsm.movie2you.presentation.ui.theme.AppBackgroundColor
 import com.wcsm.movie2you.presentation.ui.theme.Movie2YouTheme
 import com.wcsm.movie2you.presentation.ui.theme.SystemUiControllerColor
-import com.wcsm.movie2you.presentation.ui.view.movieDetails.MovieDetailsView
-import com.wcsm.movie2you.presentation.ui.view.moviesList.MoviesView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 

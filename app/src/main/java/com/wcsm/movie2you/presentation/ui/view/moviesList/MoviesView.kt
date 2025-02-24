@@ -79,32 +79,32 @@ fun MoviesView(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 MoviesContainer(
-                    title = "Em Exibição",
-                    movies = movies[MovieCategory.NOW_PLAYING],
+                    containerTitle = "Em Exibição",
+                    moviesList = movies[MovieCategory.NOW_PLAYING],
                     onTryRequestAgain = { moviesListViewModel.getMoviesByCategory(MovieCategory.NOW_PLAYING) }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
                 }
 
                 MoviesContainer(
-                    title = "Em Breve",
-                    movies = movies[MovieCategory.UPCOMING],
+                    containerTitle = "Em Breve",
+                    moviesList = movies[MovieCategory.UPCOMING],
                     onTryRequestAgain = { moviesListViewModel.getMoviesByCategory(MovieCategory.UPCOMING) }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
                 }
 
                 MoviesContainer(
-                    title = "Mais Populares",
-                    movies = movies[MovieCategory.POPULAR],
+                    containerTitle = "Mais Populares",
+                    moviesList = movies[MovieCategory.POPULAR],
                     onTryRequestAgain = { moviesListViewModel.getMoviesByCategory(MovieCategory.POPULAR) }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)
                 }
 
                 MoviesContainer(
-                    title = "Melhores Avaliados",
-                    movies = movies[MovieCategory.TOP_RATED],
+                    containerTitle = "Melhores Avaliados",
+                    moviesList = movies[MovieCategory.TOP_RATED],
                     onTryRequestAgain = { moviesListViewModel.getMoviesByCategory(MovieCategory.TOP_RATED) }
                 ) { movieId ->
                     onNavigateToMovieDetails(movieId)

@@ -74,8 +74,8 @@ fun MovieDetailsView(
                 }
 
                 MoviesContainer(
-                    title = "Mais Como Este",
-                    movies = uiState.data,
+                    containerTitle = "Mais Como Este",
+                    moviesList = uiState.data,
                     onTryRequestAgain = { movieDetailsViewModel.getSimilarMovies(movieId) }
                 ) { movieId ->
                     onSimilarMovieClick(movieId)
@@ -102,7 +102,12 @@ private fun MovieDetailsViewPreview() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            MovieDetailsView(hiltViewModel(), movieId = 1, {}) {}
+            MovieDetailsView(
+                movieDetailsViewModel = hiltViewModel(),
+                movieId = 1,
+                onSimilarMovieClick = {},
+                onBackPressed = {}
+            )
         }
     }
 }

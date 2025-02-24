@@ -17,17 +17,16 @@ class MoviesRepositoryImpl(
     override suspend fun getMoviesByCategory(movieCategory: MovieCategory): Flow<MoviesResponse<List<Movie>>> = flow {
         try {
             emit(MoviesResponse.Loading)
-            //delay(4000)
 
-            val response = when(movieCategory) {
+            val moviesByCategoryResponse = when(movieCategory) {
                 MovieCategory.NOW_PLAYING -> tmdbApiService.getNowPlayingMovies(language = "pt-BR")
                 MovieCategory.UPCOMING -> tmdbApiService.getUpcomingMovies(language = "pt-BR")
                 MovieCategory.POPULAR -> tmdbApiService.getPopularMovies(language = "pt-BR")
                 MovieCategory.TOP_RATED -> tmdbApiService.getTopRatedMovies(language = "pt-BR")
             }
 
-            if(response.isSuccessful && response.body() != null) {
-                val moviesResultList = response.body()?.movieResults
+            if(moviesByCategoryResponse.isSuccessful && moviesByCategoryResponse.body() != null) {
+                val moviesResultList = moviesByCategoryResponse.body()?.movieResults
 
                 if(moviesResultList != null) {
                     if(moviesResultList.isEmpty()) {
@@ -54,11 +53,10 @@ class MoviesRepositoryImpl(
         try {
             emit(MoviesResponse.Loading)
 
-            //val teste = if(movieId == 238) 999 else movieId
-            val response = tmdbApiService.getMovieDetails(movieId = movieId, language = "pt-BR")
-            val movieDetailsDTO = response.body()
+            val movieDetailsResponse = tmdbApiService.getMovieDetails(movieId = movieId, language = "pt-BR")
+            val movieDetailsDTO = movieDetailsResponse.body()
 
-            if(response.isSuccessful && movieDetailsDTO != null) {
+            if(movieDetailsResponse.isSuccessful && movieDetailsDTO != null) {
                 emit(MoviesResponse.Success(movieDetailsDTO.toMovieDetails()))
             } else {
                 emit(MoviesResponse.Error("Erro ao buscar detalhes deste filme: falha na requisição."))
@@ -68,7 +66,7 @@ class MoviesRepositoryImpl(
             emit(MoviesResponse.Error("Sem conexão com a internet, tente novamente mais tarde."))
         } catch (e: Exception) {
             e.printStackTrace()
-            emit(MoviesResponse.Error("Erro desconhecido ao buscar detalhes deste filme, favor reportar o erro."))
+            emit(MoviesResponse.Error("Erro desconhecido ao buscar detalhes deste filme, tente mais tarde."))
         }
     }
 
@@ -76,12 +74,10 @@ class MoviesRepositoryImpl(
         try {
             emit(MoviesResponse.Loading)
 
-            //delay(5000)
+            val movieReviewsResponse = tmdbApiService.getMovieReviews(movieId = movieId, language = "pt-BR")
 
-            val response = tmdbApiService.getMovieReviews(movieId = movieId, language = "pt-BR")
-
-            if(response.isSuccessful && response.body() != null) {
-                val movieReviews = response.body()?.movieReviewsResults
+            if(movieReviewsResponse.isSuccessful && movieReviewsResponse.body() != null) {
+                val movieReviews = movieReviewsResponse.body()?.movieReviewsResults
 
                 if(movieReviews != null) {
                     if(movieReviews.isEmpty()) {
@@ -105,15 +101,13 @@ class MoviesRepositoryImpl(
     }
 
     override suspend fun getSimilarMovies(movieId: Int): Flow<MoviesResponse<List<Movie>>> = flow {
-        //Log.i("#-# TESTE #-#", "GET SIMILAR MOVIE - MovieID: $movieId")
         try {
             emit(MoviesResponse.Loading)
-            //delay(3000)
-            //val teste = if(movieId == 240) 999 else movieId
-            val response = tmdbApiService.getSimilarMovies(movieId = movieId, language = "pt-BR")
 
-            if(response.isSuccessful && response.body() != null) {
-                val similarMovies = response.body()?.movieResults
+            val similarMoviesResponse = tmdbApiService.getSimilarMovies(movieId = movieId, language = "pt-BR")
+
+            if(similarMoviesResponse.isSuccessful && similarMoviesResponse.body() != null) {
+                val similarMovies = similarMoviesResponse.body()?.movieResults
 
                 if(similarMovies != null) {
                     if(similarMovies.isEmpty()) {

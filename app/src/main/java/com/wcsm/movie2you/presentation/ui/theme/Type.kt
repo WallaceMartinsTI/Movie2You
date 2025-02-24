@@ -11,7 +11,6 @@ import com.wcsm.movie2you.R
 
 val OpenSansFontFamily = FontFamily(
     Font(R.font.opensans_bold, FontWeight.Bold),
-
     Font(R.font.opensans_bold_italic, FontWeight.Bold, FontStyle.Italic),
     Font(R.font.opensans_extra_bold, FontWeight.ExtraBold),
     Font(R.font.opensans_extra_bold_italic, FontWeight.ExtraBold, FontStyle.Italic),

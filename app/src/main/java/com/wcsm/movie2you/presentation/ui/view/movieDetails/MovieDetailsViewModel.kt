@@ -45,7 +45,7 @@ class MovieDetailsViewModel @Inject constructor(
         getSimilarMovies(movieId)
     }
 
-    fun getMovieDetails(movieId: Int) {
+    private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val cachedMovieDetails = _cachedMovieDetails.value[movieId]
             if(cachedMovieDetails != null) {
