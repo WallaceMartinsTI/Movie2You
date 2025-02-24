@@ -50,6 +50,9 @@ O desenvolvimento do Movie2You me permitiu aprimorar minhas habilidades com cons
 organização de código e boas práticas de desenvolvimento. Além disso, trabalhei com
 requisitos específicos de layout e prazos de entrega.
 
+Para acompanhar o processo de desenvolvimento, consulte a aba "Issues" deste repositório, onde 
+documentei algumas etapas importantes.
+
 O aplicativo foi testado nos seguintes dispositivos:
 
 - **Xiaomi Redmi Note 13** (Physical Device);
