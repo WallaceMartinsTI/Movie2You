@@ -1,5 +1,10 @@
 package com.wcsm.movie2you.presentation.ui.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideIn
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -27,7 +32,20 @@ fun MoviesNavigation() {
             }
         }
 
-        composable<Screen.MovieDetailsScreen> {
+        composable<Screen.MovieDetailsScreen>(
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+            }
+        ) {
             val args = it.toRoute<Screen.MovieDetailsScreen>()
             MovieDetailsView(
                 movieDetailsViewModel = movieDetailsViewModel,
