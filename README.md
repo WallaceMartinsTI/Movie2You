@@ -8,6 +8,8 @@ a [TMDB API](https://developer.themoviedb.org/docs/getting-started), o app exibe
 de diversas categorias e fornece detalhes sobre cada título, incluindo comentários e
 filmes semelhantes.
 
+https://github.com/user-attachments/assets/ab8d7b9a-dddf-493d-94b4-929261e1f960
+
 </h1>
 
 ## 🚀 Funcionalidades
